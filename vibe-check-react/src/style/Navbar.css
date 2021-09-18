@@ -1,0 +1,152 @@
+.navbar {
+    background-color: #fdfffc;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+
+  
+  }
+  
+  .navbar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    max-width: 1500px;
+  }
+  
+  .navbar-logo {
+    color: black;
+    justify-self: start;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    font-family: 'Abril Fatface', cursive;
+  
+  }
+  
+  .navbar-logo:hover{
+    color: grey;
+    text-decoration: none;
+
+  }
+  .fa-typo3 {
+    margin-left: 0.5rem;
+    font-size: 1.8rem;
+  }
+  
+  .nav-menu {
+    
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 20px;
+    list-style: none;
+    text-align: center;
+    width: 73vw;
+    justify-content: end;
+  
+   
+
+  }
+  
+  .nav-item {
+    height: 50px;
+  }
+  
+  .nav-links {
+
+    color: rgb(100, 141, 194);
+    font-weight:bold;
+    align-items: center;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    height: 100%;
+  }
+
+  #profile{
+    color: rgba(44, 9, 9, 0);
+    border: 1px solid #E63946;
+
+  }
+  
+  
+  .nav-links:hover {
+
+    transition: all 0.2s ease-out;
+    text-decoration:underline;
+    opacity: 0.7;
+  }
+
+  .nav-item p {
+    margin-bottom: 0px;
+    font-size: 12px;
+  }
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+
+  
+  .fa-bars {
+    color: #fff;
+  }
+  
+  .nav-links-mobile {
+    display: none;
+  }
+
+  .nav-button{  
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    color: #fff;
+    padding : 8px 20px;
+   
+  }
+
+  #login{
+    background-color:  #00AFB9;
+    border-radius: 20px;
+    border: 1px solid #00AFB9;
+  }
+
+  #login:hover{
+    color: #fff;
+    text-decoration: none;
+    border: 0px;
+    transition: all 0.3s ease-out;
+  }
+
+  #signup{
+    color:#E63946;
+    border: 1px solid #E63946;
+    border-radius: 20px;
+  }
+  
+  #signup:hover{
+    color:#E63946;
+    text-decoration: none;
+    border: 0px;
+    transition: all 0.3s ease-out;
+  }
+
+  #logout{
+    color:#E63946;
+    border: 1px solid #E63946;
+    border-radius: 20px;
+
+  }
+
+
+  
+  

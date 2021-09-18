@@ -1,0 +1,24 @@
+.edit-img{
+
+    width: 24px;
+    height: 24px;
+
+}
+
+.edit-img:hover{
+
+    opacity: 0.5;
+ 
+ }
+
+.bin-img{
+
+    width: 24px;
+    height: 24px;
+}
+
+.bin-img:hover{
+
+    opacity: 0.5;
+ 
+ }

@@ -1,0 +1,24 @@
+.avatar{
+
+    width: 60px;
+    height: 60px;
+    
+}
+
+.myprofile{
+    margin: 30px;
+    background: grey;
+}
+
+.bin-img{
+
+    width: 24px;
+    height: 24px;
+
+}
+
+.bin-img:hover{
+
+   opacity: 0.5;
+
+}
