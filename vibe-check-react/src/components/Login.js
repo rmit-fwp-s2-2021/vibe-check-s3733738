@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 
 function Login() {
 
-  const [fields, setFields] = useState({ email: "", password: "" });
+  const [fields, setFields] = useState({ username: "", password: "" });
 
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -29,7 +29,7 @@ function Login() {
 
     event.preventDefault();
 
-    const user = await verifyUser(fields.email, fields.password);
+    const user = await verifyUser(fields.username, fields.password);
 
     if( user === null){
        // Login failed, reset password field to blank and set error message.
@@ -40,7 +40,7 @@ function Login() {
       
       setUserLogIn(user);
       // Navigate to the home page.
-      history.push("/forum");
+      history.push("/");
       return;
 
   }
@@ -52,10 +52,11 @@ function Login() {
           <form onSubmit={handleSubmit} className="form">
             <h2>Log In</h2>
             <div className="form-group">
-              <label htmlFor="email" className="control-label">Email</label>
-              <input name="email" id="email" className="form-control"
-                value={fields.email} onChange={handleInputChange} />
+              <label htmlFor="username" className="control-label">Username</label>
+              <input name="username" id="username" className="form-control"
+                value={fields.username} onChange={handleInputChange} />
             </div>
+            
             <div className="form-group">
               <label htmlFor="password" className="control-label">Password</label>
               <input type="password" name="password" id="password" className="form-control"

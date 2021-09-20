@@ -5,6 +5,7 @@ import '../style/Form.css';
 import img from "../media/priscilla-du-preez-XkKCui44iM0-unsplash.jpeg";
 import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router-dom";
+import DOMpurify from 'dompurify';
 
 
 export default function Signup(props) {

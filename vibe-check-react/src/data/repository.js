@@ -141,8 +141,8 @@ const USER_KEY = "user";
 
 
 // ---- User -------
-async function verifyUser(email, password) {
-  const response =  await axios.get(API_HOST + "/api/users/login", { params: {  email, password}});
+async function verifyUser(username, password) {
+  const response =  await axios.get(API_HOST + "/api/users/login", { params: {  username, password}});
   const user = response.data;
 
   if(user !== null)

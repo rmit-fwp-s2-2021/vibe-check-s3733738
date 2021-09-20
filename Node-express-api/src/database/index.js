@@ -53,11 +53,11 @@ async function seedData() {
   // insert users
   const argon2 = require("argon2");
 
-  let hash = await argon2.hash("abc123", { type: argon2.argon2id });
-  await db.user.create({ username: "mbolger", password_hash: hash, email: "abc123@test.com"});
+  let hash = await argon2.hash("Password1!", { type: argon2.argon2id });
+  await db.user.create({ username: "abc", password_hash: hash, email: "abc123@test.com"});
 
-  hash = await argon2.hash("def456", { type: argon2.argon2id });
-  await db.user.create({ username: "shekhar", password_hash: hash, email: "test123@test.com"});
+  hash = await argon2.hash("Password2!", { type: argon2.argon2id });
+  await db.user.create({ username: "tester", password_hash: hash, email: "test123@test.com"});
 }
 
 module.exports = db;

@@ -22,11 +22,7 @@ exports.one = async(req, res) => {
 // select one user from databse if username and password are a match
 exports.login = async(req, res) => {
     //find the user with the username
-    const user = await db.user.findAll({
-        where: {
-            email: req.query.email
-         }   
-    });
+    const user = await db.user.findByPk(req.query.username);
 
     // user must not be null and password must match
     if(user === null || await argon2.verify(user.password_hash, req.query.password) === false)
@@ -53,3 +49,10 @@ exports.create = async(req, res) => {
     res.json(user);
 };
 
+
+exports.update = async(req, res) => {
+
+    const user = await db.user.findByPk(req.params.username);
+    const update = await db.user.update()
+
+}
