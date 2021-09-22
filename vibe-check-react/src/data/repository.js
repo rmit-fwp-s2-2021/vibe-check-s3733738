@@ -164,6 +164,18 @@ async function createUser(user) {
   return response.data;
 }
 
+async function editUser(id, user) {
+  const response = await axios.post(API_HOST + `/api/users/update./${id}`, user);
+  
+  return response.data;
+}
+
+async function deleteUser(id) {
+  const response = await axios.post(API_HOST + `/api/users/delete/${id}`);
+
+  return response.data;
+}
+
 //in local storage set a new key 'user' for logged in user
 function setUser(user) {
   localStorage.setItem(USER_KEY, JSON.stringify(user));
@@ -182,6 +194,8 @@ export {
   verifyUser,
   findUser,
   createUser,
+  deleteUser,
+  editUser,
   getUser,
   setUser,
   removeUser
