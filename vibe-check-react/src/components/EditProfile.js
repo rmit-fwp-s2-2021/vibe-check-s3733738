@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 function EditProfile(){
 
-  const [fields, setFields] = useState({ ...getUser(), username: getUser().username, email: getUser().email, password: getUser().password });
+  const [fields, setFields] = useState({ username: getUser().username, email: getUser().email, password: getUser().password });
 
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -31,28 +31,28 @@ function EditProfile(){
   const handleSaveChange = (event) => {
     //  dont submmit the form to the server so the page wont refresh
     event.preventDefault();
-    const user = { ...fields };
+   
     //  if username field is empty return error
-    if (user.email.trim() === "") {
+    if (fields.email === "") {
       setErrorMessage("Email cannot be empty");
       return;
     }
 
-    else if (!/\S+@\S+\.\S+/.test(user.email.trim)) {
-      setErrorMessage("Email format must be example123@test.com");
-      return;
-    }
+    // else if (!/\S+@\S+\.\S+/.test(user.email.trim)) {
+    //   setErrorMessage("Email format must be example123@test.com");
+    //   return;
+    // }
 
     //  if password field entered does not match the requirement return error
-    else if (user.password.length < 6 || user.password.trim === "" ||
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(user.password)) {
+    else if (fields.password.length < 6 || fields.password.trim === "" ||
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(fields.password)) {
       setErrorMessage("Pasword must be at least six characters should be a mix of upper and lowercase characters, numbers and punctuation")
       return;
     }
 
-    const id = getUser().user_id;
-    editUser(id, user);
-    setUserLogIn(user);
+    const username = getUser().username;
+    editUser(username);
+    setUserLogIn(fields);
     history.push("/profile");
 
   }
