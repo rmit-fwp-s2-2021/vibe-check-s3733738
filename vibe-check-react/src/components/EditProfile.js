@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 function EditProfile(){
 
-  const [fields, setFields] = useState({ username: getUser().username, email: getUser().email, password: getUser().password });
+  const [fields, setFields] = useState({ "username": getUser().username, "email": getUser().email, "password": "" });
 
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -16,46 +16,111 @@ function EditProfile(){
 
 
   const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    // use spread operator
-    const temp = { ...fields };
-
-    // Update field and state.
-    temp[name] = value;
-  
-    setFields(temp);
+    setFields({ ...fields, [event.target.name]: event.target.value });
   }
+
+    //  // Ensure null is not used when setting fields.
+    //  const setFieldsNullToEmpty = (currentFields) => {
+    //   // Make a copy of currentFields so the original parameter is not modified.
+    //   currentFields = { ...currentFields };
+  
+    //   for(const [key, value] of Object.entries(currentFields)) {
+    //     currentFields[key] = value !== null ? value : "";
+    //   }
+  
+    //   setFields(currentFields);
+    // };
+  
 
   const handleSaveChange = (event) => {
     //  dont submmit the form to the server so the page wont refresh
     event.preventDefault();
+
+    // Validate form and if invalid do not contact API.
+    // const { trimmedFields, isValid } = handleValidation();
+    // if(!isValid)
+    //   return;
+
+
+
+    // const user = fields;
    
-    //  if username field is empty return error
-    if (fields.email === "") {
+    //if username field is empty return error
+    if (fields.email.trim() === null) {
       setErrorMessage("Email cannot be empty");
       return;
     }
 
-    // else if (!/\S+@\S+\.\S+/.test(user.email.trim)) {
-    //   setErrorMessage("Email format must be example123@test.com");
-    //   return;
-    // }
+    else if (!/\S+@\S+\.\S+/.test(fields.email.trim())) {
+      setErrorMessage("Email format must be example123@test.com");
+      return;
+    }
 
-    //  if password field entered does not match the requirement return error
+    // if password field entered does not match the requirement return error
     else if (fields.password.length < 6 || fields.password.trim === "" ||
       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(fields.password)) {
       setErrorMessage("Pasword must be at least six characters should be a mix of upper and lowercase characters, numbers and punctuation")
       return;
     }
 
-    const username = getUser().username;
-    editUser(username);
+    const getUserInLocal = getUser();
+    editUser(fields);
+    setUser({ ...fields, date: getUserInLocal.date,image: getUserInLocal.image });
     setUserLogIn(fields);
     history.push("/profile");
+    return;
 
   }
+
+  // const handleValidation = () => {
+  //   const trimmedFields = trimFieldsEmptyToNull();
+
+  //   console.log(trimmedFields);
+  //   const currentErrors = { };
+
+  //   let key = "email";
+  //   let field = trimmedFields[key];
+  //   if(field === null)
+  //     currentErrors[key] = "Email cannot be empty";
+  //   else if(!/\S+@\S+\.\S+/.test.field)
+  //     currentErrors[key] = "Email format must be example123@test.com";
+
+
+  //   key = "password";
+  //   field = trimmedFields[key];
+  //   if(field !== null && field.length <6)
+  //     currentErrors[key] = "Pasword must be at least six characters should be a mix of upper and lowercase characters, numbers and punctuation";
+
+  //   setErrorMessage(currentErrors);
+
+
+  //   return { trimmedFields, isValid: Object.keys(currentErrors).length === 0 };
+  // };
+
+  // // Note: Empty fields are converted to null.
+  // const trimFieldsEmptyToNull = () => {
+  //   const trimmedFields = { };
+
+  //   for(const [key, value] of Object.entries(fields)) {
+  //     let field = value;
+
+  //     // If value is not null trim the field.
+  //     if(field !== null) {
+  //       field = field.trim();
+
+  //       // If the trimmed field is empty make it null.
+  //       if(field.length === 0)
+  //         field = null;
+  //     }
+
+  //     trimmedFields[key] = field;
+  //   }
+
+  //   setFieldsNullToEmpty(trimmedFields);
+
+  //   return trimmedFields;
+  // };
+
 
   return (
     <div>

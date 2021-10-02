@@ -15,7 +15,8 @@ function DeletePost(props) {
 
     const handleCloseAndConfirm = () => {
         //   delete post 
-        deletePost(props.postid);
+        const id = props.postid;
+        deletePost(id);
         //   change show  modal state
         setShow(false);
         // change posts state

@@ -93,6 +93,13 @@ async function createPost(post){
     return response.data;
 }
 
+// delete specific post
+async function deletePost(postId){
+    const response = await axios.delete(API_HOST + `/api/posts/delete/${postId}`);
+
+    return response.data;
+}
+
 export {
-    getPosts, createPost
+    getPosts, createPost, deletePost
 }

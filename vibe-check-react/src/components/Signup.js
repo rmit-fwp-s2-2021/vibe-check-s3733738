@@ -11,7 +11,7 @@ import DOMpurify from 'dompurify';
 export default function Signup(props) {
   const history = useHistory();
 
-  const [fields, setFields] = useState({ username: "", email: "", password: "" });
+  const [fields, setFields] = useState({ username: "", email: "", password: ""});
 
   const [errorMessage, setErrorMessage] = useState({  });
 
@@ -22,7 +22,7 @@ export default function Signup(props) {
     const name = event.target.name;
     const value = event.target.value;
 
-    const temp = { ...fields };
+    const temp = { ...fields};
     // Update field and state.
     temp[name] = value;
     setFields(temp);
@@ -41,7 +41,7 @@ export default function Signup(props) {
    // Create user. -- sends HTTP
     //request to API
     //assume api always works here
-    console.log(trimmedFields);
+    const finalFields = { ...trimmedFields}
     const user = await createUser(trimmedFields);
 
     // set user state

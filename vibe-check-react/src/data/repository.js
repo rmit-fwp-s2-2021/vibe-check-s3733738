@@ -152,10 +152,18 @@ async function verifyUser(username, password) {
 
 }
 
-async function findUser(id) {
-  const response = await axios.get(API_HOST + `/api/users/select/${id}`);
+async function findUser(username) {
+  const response = await axios.get(API_HOST + `/api/users/select/${username}`);
 
   return response.data;
+}
+
+// RETURN ALL USERS INFO
+async function getUsers(){
+  const response = await axios.get(API_HOST + `/api/users/`);
+
+  return response.data;
+
 }
 
 async function createUser(user) {
@@ -164,14 +172,15 @@ async function createUser(user) {
   return response.data;
 }
 
-async function editUser(id, user) {
-  const response = await axios.post(API_HOST + `/api/users/update./${id}`, user);
+async function editUser(user) {
+ 
+  const response = await axios.put(API_HOST + "/api/users/update", user);
   
   return response.data;
 }
 
-async function deleteUser(id) {
-  const response = await axios.post(API_HOST + `/api/users/delete/${id}`);
+async function deleteUser(username) {
+  const response = await axios.delete(API_HOST + `/api/users/delete/${username}`);
 
   return response.data;
 }
@@ -192,6 +201,7 @@ function removeUser() {
 
 export {
   verifyUser,
+  getUsers,
   findUser,
   createUser,
   deleteUser,

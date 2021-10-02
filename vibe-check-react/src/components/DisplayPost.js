@@ -19,10 +19,9 @@ export default function DisplayPost(){
           const currentPosts = await getPosts();
             
           setPosts(currentPosts);
-          console.log(posts);
         }
         loadPosts();
-      }, []);
+      }, [posts]);
       
     if(posts === null){
         return null
@@ -31,44 +30,7 @@ export default function DisplayPost(){
     
 
     return (
-        
-    //     <div className="feed-body">
-    //     { posts.length == 0?
-    //         <span className="text-muted">No posts have been submitted.</span>
-           
-    //         :
-    //         posts.map(post => {
-    //           <div className="border my-3 p-3" style={{ whiteSpace: "pre-wrap" }}>
-    //             <span  className="d-flex justify-content-start  align-items-center">
-    //             {/* <img src={handleAvatarImg(x.email)}  height="50px" width="50px" className="rounded-circle"  alt="profileimg" ></img> */}
-    //             <span>
-    //               <h6>{post.username}</h6>
-    //             </span>
-    //             </span>
-    //             <span className="d-flex justify-content-between">
-    //               <div className="post-body"> <p>{post.text} </p> </div>
-    //               <div className="p-2 ml-auto">
-
-    //                     {/* SHOW EDIT/DELETE IF THIS POST BELONGS TO USER */}
-    //                     { userLogIn.username === post.username ? (
-    //                         <div>
-    //                         <Link to="/editPost">  <img src={edit} className="edit-img" alt="edit-img"></img></Link>
-    //                        <DeletePost/>
-    //                        </div>
-                           
-    //                     ): null
-    //                     }
-                           
-    //                  </div>
-    //               {/* {post.image_path} */}
-
-
-    //             </span>
-
-    //           </div>
-    //         })
-    //     }
-    // </div>
+  
     <div>
                 {
           posts.length === 0 ?
@@ -88,7 +50,7 @@ export default function DisplayPost(){
                 { userLogIn.username === x.username ? 
                             <div>
                             <Link to="/editPost">  <img src={edit} className="edit-img" alt="edit-img"></img></Link>
-                           <DeletePost postid={x.postid}/>
+                           <DeletePost postid={x.post_id}/>
                            </div>
                            
                         
