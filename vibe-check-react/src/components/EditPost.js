@@ -1,90 +1,89 @@
 import { getUsers } from '../data/repository';
+import React, { useEffect, useState } from 'react';
+import edit from '../media/editing.png';
+import { Modal, Form } from 'react-bootstrap';
+import { getPost, editPost } from '../data/posts';
 
 
-function EditPost(){
+export default function EditPost(props) {
 
-    const [posts, setPosts] = useState(getPosts());
-    const [ editPostField, setEditPostField ] = useState({ text: ""});
+    // field for editing post
+    const [editPostField, setEditPostField] = useState({ "text": "" });
+    // display error message if post is empty 
     const [errorMessage, setErrorMessage] = useState("");
-    //set index for posts in localStorage
-   const [index, setIndex] = useState("");
+    //set postId as index
+    const [index, setIndex] = useState(props.postid);
     //control display edit inputbox 
-   const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false);
+    //set Modal show state
+    const [visible, setVisible] = useState(false);
+
+
+    // Load Post
+    useEffect(() => {
+        async function loadPost() {
+            const currentPost = await getPost(index);
+
+            setEditPostField({ "text": currentPost.text });
+        }
+        loadPost();
+    }, [visible]);
+
+
+    const showModal = () => setVisible(true);
+
+    const handleCancel = () => {
+        setVisible(false);
+        setErrorMessage("");
+    }
 
     const handleInputChange = (event) => {
 
-        setEditPostField(event.target.value);
+        setEditPostField({ "text": event.target.value });
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const postEdited = editPostField;
-        const postTrimmed = editPostField.trim();
 
         // check if edited field  is  empty
-        if (postTrimmed === "") {
+        if (editPostField.text === "") {
             setErrorMessage("Post cannot be empty");
             return;
         }
 
-        editPost(postEdited, index);
-        setPosts(getPosts());
-        setShow(true);
+        //update post in db
+        await editPost(editPostField, index);
+        setVisible(false);
+        setShow(false);
+        return;
     }
 
-    //post mapper to list all  posts made by a user
-    // const postMapper = posts.map((post, index) => {
-    //     if (post.email === getUser().email) {
-    //         return (
-    //             <div className="border my-3 p-3" style={{ whiteSpace: "pre-wrap" }}>
-    //                 <div className="d-flex">
 
-    //                     <div className="p-2">{post.post}</div>
-    //                     <div className="p-2 ml-auto">
 
-    //                         <img src={edit} className="edit-img" alt="edit-img" onClick={() => { setShow(false); setPostField(post.post); setIndex(index); }}></img>
-    //                     </div>
-    //                     <div className="p-2"><DeletePost post={post} setPosts={setPosts} /></div>
-    //                 </div>
-
-    //             </div>
-    //         )
-    //     } else {
-    //         return null;
-    //     }
-    // }
-
-    return(
-        <>  
-        {
-        show === true &&
-        <div className="row">
-            <div className="my-3 p-3">
-                <form onSubmit={handleSubmit}>
-                    <h2>Edit Post</h2>
-                    <fieldset>
-                        <div className="form-group">
-                            <textarea id="post" className="form-control" rows="3"
-                                value={postField} onChange={handleInputChange} />
-                        </div>
-                        {errorMessage !== null &&
-                            <div className="form-group">
-                                <span className="text-danger">{errorMessage}</span>
-                            </div>
-                        }
-                        <div className="form-group">
-                            <input type="submit" className="btn btn-primary" value="Save Changes" />
-                        </div>
-                    </fieldset>
-                </form>
+    return (
+        <>
+            <div className="PostEditModal">
+                <img src={edit} className="edit-img" alt="edit-img" onClick={showModal}></img>
+                <Modal show={visible}>
+                    <Modal.Header>
+                        <Modal.Title>Edit Post</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Group className="mb-3" controlId="formContent">
+                            <Form.Control as="textarea" name="content" onChange={handleInputChange} value={editPostField.text} type="text" rows={6} />
+                            <span className="text-danger">{errorMessage}</span>
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button className="btn btn-secondary" onClick={handleCancel} >
+                            CANCEL
+                        </button>
+                        <button className="btn btn-warning" onClick={handleSubmit}>
+                            OK
+                        </button>
+                    </Modal.Footer>
+                </Modal>
             </div>
-        </div>
-
-        }
-
-        <div>
-
-        </div>
         </>
     );
 }

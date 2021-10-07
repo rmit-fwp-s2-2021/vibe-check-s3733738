@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Link } from 'react-router-dom';
 import { verifyUser } from "../data/repository";
 import img from "../media/priscilla-du-preez-XkKCui44iM0-unsplash.jpeg";
 import '../style/Form.css';
@@ -70,6 +71,12 @@ function Login() {
                 <span className="text-danger">{errorMessage}</span>
               </div>
             }
+             <div className="form-group mt-4 text-center">
+             <p>
+                    Don't have an account?{" "}
+                    <Link to="/register"> Create account</Link>
+                  </p>
+            </div>
           </form>
         </div>
         <div className="col-xl p-0">

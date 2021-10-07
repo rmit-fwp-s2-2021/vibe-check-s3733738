@@ -1,19 +1,26 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import img from "../media/priscilla-du-preez-XkKCui44iM0-unsplash.jpeg";
 import vec1 from "../media/chat-bubble.png";
 import vec2 from "../media/opinion.png";
 import vec4 from "../media/discussion.png";
 import vec3 from "../media/mediator.png";
+import '../style/Home.css';
 
 function Home() {
     //landing page code
     return (
         <>
             <div className="row text-center">
-                <div className="col-xl d-flex align-items-center justify-content-center">
-
-                    <h2>Build a social community and <br></br>share your thoughts!</h2>
+                <div className="col-md-6 p-lg-5 mx-auto my-5  align-items-center justify-content-center">
+                    <h1 className="title">Build a social community and <br></br>share your thoughts!</h1>
+                    <span>
+                    <Link to="/signup" className="homeBtn btn">
+                         Get Started!
+                    </Link>
+                    </span>
                 </div>
+                
                 <div className="col-xl">
                     <img className="img-fluid" src={img} alt="img" />
                 </div>

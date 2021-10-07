@@ -21,7 +21,7 @@ function Navbar() {
                 </Link>
                 <ul className='nav-menu pull-right'>
                     {
-                        userLogIn !== null ?
+                        userLogIn !== null && getUser() !== null ?
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-links" to="/forum">

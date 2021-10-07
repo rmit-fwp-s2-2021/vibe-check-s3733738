@@ -43,12 +43,12 @@ exports.login = async(req, res) => {
 // create a user in database 
 exports.create = async(req, res) => {
     const hash = await argon2.hash(req.body.password, { type: argon2.argon2id });
-
+    
     const user = await db.user.create({
         username: req.body.username,
         password_hash : hash,
-        email : req.body.email
-
+        email : req.body.email,
+        date: new Date().toDateString()
     });
 
     res.json(user);
@@ -61,14 +61,27 @@ exports.update = async(req, res) => {
 
     const hash = await argon2.hash(req.body.password, { type: argon2.argon2id });
 
-    const user = await db.user.findByPk(req.params.id);
+    const user = await db.user.findByPk(req.body.username);
 
-    
         user.email = email;
         user.password_hash = hash;
 
-        await user.update();
+        // await user.update();
+        await user.save();
         
     res.json(user);
 
 };
+
+// delete a post in the database
+exports.delete = async(req, res)=> {
+
+    const user = await db.user.findByPk(req.params.username);
+
+    await user.destroy();
+
+    res.json(user);
+
+}
+
+

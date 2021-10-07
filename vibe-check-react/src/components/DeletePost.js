@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import '../style/MyProfile.css';
 import { deletePost, getPosts } from '../data/posts';
 import '../style/Forum.css';
+import { useHistory } from "react-router-dom";
 
 function DeletePost(props) {
 
@@ -13,12 +14,19 @@ function DeletePost(props) {
 
     const handleShow = () => setShow(true);
 
-    const handleCloseAndConfirm = () => {
-        //   delete post 
+    const history = useHistory();
+
+    const handleCloseAndConfirm = async () => {
+       
         const id = props.postid;
-        deletePost(id);
+         //   delete post from database
+        await deletePost(id);
         //   change show  modal state
         setShow(false);
+
+        //props.setPosts(getPosts());
+        history.push("/forum");
+        
         // change posts state
         //props.setPosts(getPosts());
         return;

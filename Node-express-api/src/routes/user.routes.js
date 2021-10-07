@@ -6,7 +6,7 @@ module.exports = (express, app) => {
     router.get("/", controller.all);
 
     // select a single user with is
-    router.get("/select/:id", controller.one);
+    router.get("/select/:username", controller.one);
 
     // select one user from the databse if username and password are a match ,
     router.get("/login", controller.login);
@@ -15,7 +15,10 @@ module.exports = (express, app) => {
     router.post("/", controller.create);
 
     // edit user details
-    router.put("/update/:id", controller.update);
+    router.put("/update", controller.update);
+
+    // delete a user account
+    router.delete("/delete/:username", controller.delete);
 
     // add routes to server
     app.use("/api/users", router);

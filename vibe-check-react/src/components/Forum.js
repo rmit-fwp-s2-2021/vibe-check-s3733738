@@ -5,68 +5,79 @@ import DisplayPost from './DisplayPost';
 
 function Forum() {
 
-  const [text, setText] = useState("");
+  const [posts, setPosts] = useState(null);
+
+  const [fields, setFields] = useState({ 
+    username: getUser().username,
+    text: "",
+    //image_url: ""
+  });
 
   const [errorMessage, setErrorMessage] = useState("");
-
-  const [posts, setPosts] = useState(null);
 
   const [files, setFiles] = useState([]); 
 
   const [image64String, setImage64String] = useState("");
 
-  // Load profiles.
+
   useEffect(() => {
     async function loadPosts() {
+      // load all posts exist in database 
       const currentPosts = await getPosts();
-
+      
       setPosts(currentPosts);
     }
     loadPosts();
   }, []);
 
+
+
   const handleInputChange = (event) => {
-    setText(event.target.text)
+    const name = event.target.name;
+    const value = event.target.value;
+
+    const temp = { ...fields };
+    temp[name] = value;
+    setFields(temp);
   };
 
-  const handleSubmit = (event) => {
-    // event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    // const postTrimmed = post.text.trim();
+    const postTrimmed = fields.text.trim();
 
-    // //  if textbox field is empty return error
-    // if (postTrimmed === "") {
-    //   setErrorMessage("Post cannot be empty");
-    //   return;
-    // }
+    //console.log(postTrimmed);
+
+    //  if textbox field is empty return error
+    if (postTrimmed === "") {
+      setErrorMessage("Post cannot be empty");
+      return;
+    }
 
     // const formData = new FormData();
-    // formData.append("text", post.text);
-    // formData.append("user_id", post.user_id);
+    // formData.append("text", fields.texttext);
+    // formData.append("username", getUser().username);
     // formData.append('image_url', post.file);
-    // //create post
-    // //setPosts([...posts, { email: getUser().email, post: postTrimmed }]);
-    // createPost(formData);
+
+    //create post
+    //setPosts({ username: getUser().email, post: postTrimmed });
+    await createPost({...fields, postTrimmed});
+
+    const posts = await getPosts();
+    setPosts(posts);
+
     // //set post to localStorage
     // //insertPost(postTrimmed, getUser().email);
     // //make  post field empty
-    // setPost("");
+    setFields({...fields, text: ""});
     // //clear error message
-    // setErrorMessage("");
-    // // 
+    setErrorMessage("");
+
+    return;
+
+    
   }
 
-  // convert email to username
-  // const handleEmailtoUser = (email) => {
-  //   const users = getUsers();
-  //   //loop users in the localStorage
-  //   for (const user of users) {
-  //     if (email === user.email) {
-  //       //return username
-  //       return user.username;
-  //     }
-  //   }
-  // }
 
 //   const handleAvatarImg  = (email) =>{
 //     const users = getUsers();
@@ -114,10 +125,6 @@ const handleFileUpload = (event) => {
     // } else {
     //   setImage(null);
     // }
-  
-
-
-
 
 
 
@@ -129,7 +136,7 @@ const handleFileUpload = (event) => {
             <legend>New Post</legend>
             <div className="form-group">
               <textarea name="text" id="text" className="form-control" rows="3"
-                value={text} onChange={handleInputChange} />
+                value={fields.text} onChange={handleInputChange} />
             </div>
             <div>
                 <p>Upload image</p>
@@ -142,7 +149,7 @@ const handleFileUpload = (event) => {
             }
             <div className="form-group">
               <input type="button" className="btn btn-danger mr-5" value="Cancel"
-                onClick={() => { setText(""); setErrorMessage(null); }} />
+                onClick={() => { setFields({text: ""}); setErrorMessage(null); }} />
               <input type="submit" className="btn btn-primary" value="Post" />
             </div>
           </fieldset>
@@ -150,8 +157,7 @@ const handleFileUpload = (event) => {
       </div>
       <hr />
       <h1>Forum</h1>
-          
-          <DisplayPost/>
+          <DisplayPost posts={posts}/>
     </div>
   )
 }

@@ -80,6 +80,13 @@ import axios from "axios";
 
 const API_HOST = "http://localhost:4000";
 
+async function getPost(postId) {
+    const response = await axios.get(API_HOST + `/api/posts/select/${postId}`);
+
+    return response.data;
+}
+
+
 async function getPosts() {
     const response = await axios.get(API_HOST + "/api/posts");
 
@@ -93,6 +100,13 @@ async function createPost(post){
     return response.data;
 }
 
+async function editPost(post, post_id) {
+ 
+    const response = await axios.put(API_HOST + `/api/posts/update/${post_id}`, post);
+    
+    return response.data;
+  }
+
 // delete specific post
 async function deletePost(postId){
     const response = await axios.delete(API_HOST + `/api/posts/delete/${postId}`);
@@ -101,5 +115,5 @@ async function deletePost(postId){
 }
 
 export {
-    getPosts, createPost, deletePost
+    getPost, getPosts, createPost, editPost, deletePost
 }

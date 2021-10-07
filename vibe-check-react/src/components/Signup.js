@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Link } from 'react-router-dom';
 import validation from '../data/validation';
 import { setUser, insertOrUpdateUser, getUsers, createUser, findUser } from '../data/repository';
 import '../style/Form.css';
@@ -130,6 +131,11 @@ export default function Signup(props) {
             </div>
             <div className="form-group text-center">
               <input type="submit" className="btn btn-lg " value="Create account" />
+            </div>
+            <div className="form-group mt-4 text-center">
+                  <p>
+                    Already have an account? <Link to="/login"> Log in</Link>
+                  </p>
             </div>
 
           </form>
