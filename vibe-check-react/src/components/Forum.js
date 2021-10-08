@@ -1,6 +1,6 @@
 import React, { useState , useEffect } from 'react'
 import { getUser, getUsers } from '../data/repository';
-import { createPost, getPosts } from '../data/posts';
+import { createPost, getPosts, getPostsAndReplies } from '../data/posts';
 import DisplayPost from './DisplayPost';
 
 function Forum() {
@@ -23,7 +23,7 @@ function Forum() {
   useEffect(() => {
     async function loadPosts() {
       // load all posts exist in database 
-      const currentPosts = await getPosts();
+      const currentPosts = await getPostsAndReplies();
       
       setPosts(currentPosts);
     }
@@ -61,9 +61,11 @@ function Forum() {
 
     //create post
     //setPosts({ username: getUser().email, post: postTrimmed });
+    
+    // insert new post in batabase 
     await createPost({...fields, postTrimmed});
 
-    const posts = await getPosts();
+    const posts = await getPostsAndReplies();
     setPosts(posts);
 
     // //set post to localStorage
@@ -133,7 +135,7 @@ const handleFileUpload = (event) => {
       <div>
         <form onSubmit={handleSubmit}>
           <fieldset>
-            <legend>New Post</legend>
+            <legend>Share your thoughts...</legend>
             <div className="form-group">
               <textarea name="text" id="text" className="form-control" rows="3"
                 value={fields.text} onChange={handleInputChange} />

@@ -19,6 +19,7 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.post = require("./models/post.js")(db.sequelize, DataTypes);
 db.comment = require("./models/comment.js")(db.sequelize, DataTypes);
+db.relationship = require("./models/relationship.js")(db, DataTypes);
 
 // Relate post and user.
 // fk field to the post table name will be username
@@ -29,9 +30,15 @@ db.post.belongsTo(db.user, { foreignKey: { name: "username", allowNull: false } 
 
 // 1 post has many comments 
 // Relate post and comment and user
-db.post.hasMany(db.comment, {foreignKey: "replyTo_id", as:'id'});
+db.post.hasMany(db.comment, {foreignKey: "replyTo_id", as:'comments', onDelete: 'cascade', hooks: true });
 db.comment.belongsTo(db.post, { as: 'post', foreignKey: 'replyTo_id'});
 db.comment.belongsTo(db.user, { as: 'commentAuthor', foreignKey: 'comment_author'});
+
+// relationship
+// -------------
+//| follower | following |
+db.relationship.belongsTo(db.user, {as:'following', foreignKey:'username'});
+db.relationship.belongsTo(db.user, {as: 'follower', foreignKey:'username'});
 
 
 
@@ -43,11 +50,11 @@ db.sync = async () => {
   // Sync schema.
   // create the tables
   // wait for the promise to finish then move to the next
-  //await db.sequelize.sync();
+  await db.sequelize.sync();
 
   // Can sync with force if the schema has become out of date - note that syncing with force is a destructive operation.
   // drop all tables firsty
-await db.sequelize.sync({ force: true });
+//await db.sequelize.sync({ force: true });
   
   await seedData();
 };
@@ -73,7 +80,7 @@ async function seedData() {
 
   const post_count = await db.post.count();
 
-  if(count > 0)
+  if(post_count > 0)
     return;
 
   await db.post.create({ username: "tester1" ,text: "does anyone else have any mandatory classes on campus despite the covid stuff going around on campus? how does that make you feel and is there any way around it or do we have to suck it up and risk getting covid and such?", image_path: "../vibe-check-react/src/media/PostImage/947_large.png"});
@@ -81,11 +88,18 @@ async function seedData() {
 
   const comment_count = await db.comment.count();
 
-  if(count > 0)
+  if(comment_count > 0)
     return;
   
   await db.comment.create({ message: "comment on post 1", replyTo_id: 1, comment_author: "tester2"});
   await db.comment.create({ message: "2nd comment on post 1", replyTo_id: 1, comment_author: "tester2"});
+
+  const relationship_count = await db.relationship.count();
+
+  if(relationship_count > 0)
+    return;
+  
+  await db.relationship.create({ follower_name: "tester1" , following_name: "tester2"});
   
 }
 
