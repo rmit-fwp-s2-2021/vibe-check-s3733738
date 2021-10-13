@@ -4,6 +4,7 @@ module.exports = (db, DataTypes) =>
         follower_name: {
             type: DataTypes.STRING(32),
             primaryKey: true,
+            unique: false,
             allowNull: false,
             references: {
                 model: db.user,
@@ -13,6 +14,7 @@ module.exports = (db, DataTypes) =>
         following_name: {
             type: DataTypes.STRING(32),
             primaryKey: true,
+            unique: false,
             allowNull: false,
             references: {
                 model: db.user,

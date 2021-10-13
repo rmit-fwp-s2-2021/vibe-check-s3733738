@@ -5,6 +5,7 @@ import { getUser } from '../data/repository';
 // import { getPosts, editPost } from '../data/posts';
 import '../style/MyProfile.css';
 import DeleteAcc from './DeleteAcc';
+import Following from './FollowingList';
 import EditProfile from './EditProfile';
 import AvatarChanger from './AvatarChanger';
 import { AvatarContext } from "../contexts/AvatarContext";
@@ -37,9 +38,8 @@ function MyProfile() {
     return (
         <>
             <div className="row">
-                <div className="col-xl my-3 p-3 d-flex-column justify-content-center text-center align-content-center">
+                <div className="col-xl-7 border my-3 p-3 d-flex-column justify-content-center text-center align-content-center bg-light">
                     <h2>My Profile</h2>
-                    <hr />
                     <img src={avatarImage} alt="Avatar" className="avatar my-3" />
                     <h3> {getUser().username} </h3>
                     <div className="user-info">
@@ -55,37 +55,9 @@ function MyProfile() {
 
                     <DeleteAcc />
 
-                    {/* {
-                        show === false &&
-
-                        <div className="my-3 p-3">
-                            <form onSubmit={handleSubmit}>
-                                <h2>Edit Post</h2>
-                                <fieldset>
-                                    <div className="form-group">
-                                        <textarea id="post" className="form-control" rows="3"
-                                            value={postField} onChange={handleInputChange} />
-                                    </div>
-                                    {errorMessage !== null &&
-                                        <div className="form-group">
-                                            <span className="text-danger">{errorMessage}</span>
-                                        </div>
-                                    }
-                                    <div className="form-group">
-                                        <input type="submit" className="btn btn-primary" value="Save Changes" />
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
-
-                    } */}
-
-                    {/* <div>
-                       
-                        {postMapper}
-
-                    </div> */}
                 </div>
+                    <Following/>
+           
             </div>
         </>
     )

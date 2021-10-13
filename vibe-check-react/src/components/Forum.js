@@ -1,7 +1,9 @@
 import React, { useState , useEffect } from 'react'
 import { getUser, getUsers } from '../data/repository';
+import { getFollowing, getFollowable } from '../data/repository';
 import { createPost, getPosts, getPostsAndReplies } from '../data/posts';
 import DisplayPost from './DisplayPost';
+import Connect from './Connect.js';
 
 function Forum() {
 
@@ -131,6 +133,8 @@ const handleFileUpload = (event) => {
 
 
   return (
+    <>
+    <div className="row">
     <div className="col-lg-8 my-3 p-3 justify-content-center align-items-center ">
       <div>
         <form onSubmit={handleSubmit}>
@@ -161,6 +165,9 @@ const handleFileUpload = (event) => {
       <h1>Forum</h1>
           <DisplayPost posts={posts}/>
     </div>
+    <Connect />
+    </div>
+    </>
   )
 }
 

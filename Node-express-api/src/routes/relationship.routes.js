@@ -6,7 +6,14 @@ module.exports = (express, app) => {
     router.get("/:username/following", controller.all);
 
     // [get] a list of 'not yet'followed users for a user (fetch that user's username)
-    router.get("/:username/follow",controller.canFollow)
+    router.get("/:username/follow",controller.canFollow);
+
+    // handle follow request by a user
+    router.post("/:username/follow", controller.follow);
+
+    // handle unfollow request by a user
+    router.post("/:username/unfollow", controller.unfollow);
+
 
     // add routes to server
     // this app.user tells one how to call an API
@@ -14,17 +21,6 @@ module.exports = (express, app) => {
 };
 
 
-
-
-
-
-
-
-// [post] - follow insert a user followed another user in relationshsip model
-
-
-
-// [delete] -unfollow meaning delete a row of user from following certain user
 
 
 
