@@ -6,26 +6,35 @@ import DeletePost from './DeletePost';
 import EditPost from './EditPost';
 import Reply  from './Reply';
 import LikeDislike from './LikeDislike';
-
+import { getUserLikedPost, getUserDislikedPost } from '../data/posts';
 
 export default function DisplayPost(props) {
 
-
+  const username = getUser().username;
   // const [replyFields, setReplyFields ] = useState({message: "", reply_author: getUser().username, post_id: ""});
 
   // const [errorMessage, setErrorMessage] = useState("");
+  const [ userLiked, setUserLiked ]= useState(null);
+
+  const [ userDisliked, setUserDisliked ]= useState(null);
 
 
+  useEffect(()=>{
+    async function loadLikedDisliked() {
 
+      const likedPost = await getUserLikedPost(username);
+      setUserLiked(likedPost);
+      console.log("user liked post:" +likedPost);
 
-  // const handleInputChange = (event) => {
-  //   const name = event.target.name;
-  //   const value = event.target.value;
+      const dislikedPost = await getUserDislikedPost(username);
+      setUserDisliked(dislikedPost);
+      console.log("user disliked post:" + dislikedPost);
+      return;
 
-  //   const temp = { ...replyFields };
-  //   temp[name] = value;
-  //   setReplyFields(temp);
-  // };
+  }
+
+  loadLikedDisliked();
+  }, []);
 
   const posts = props.posts;
 
@@ -124,7 +133,7 @@ export default function DisplayPost(props) {
                 </p>
               </button> */}
               <span className="d-flex justify-content-start">
-                <LikeDislike postid={x.post_id}/>
+                <LikeDislike postid={x.post_id} userLiked={userLiked} userDisliked={userDisliked}/>
                 <Reply postid={x.post_id} />
               </span>
               

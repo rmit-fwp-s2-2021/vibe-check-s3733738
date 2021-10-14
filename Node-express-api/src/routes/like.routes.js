@@ -18,7 +18,7 @@ module.exports = (express, app) => {
     router.post("/likeDislike/:username", controller.likeOrDislikePost);
 
     // destroy 
-    router.delete("/delete/:username", controller.deleteLikeOrDislike);
+    router.delete("/delete/:username/:post_id", controller.deleteLikeOrDislike);
 
     // add routes to server
     // this app.user tells one how to call an API

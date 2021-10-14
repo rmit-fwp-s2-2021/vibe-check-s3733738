@@ -87,7 +87,7 @@ async function likeOrDislikePost(username, post) {
 }
 
 async function deleteLikeOrDislike(username, post) {
-    const response = await axios.delete(API_HOST + `/api/like/delete/${username}`, post);
+    const response = await axios.delete(API_HOST + `/api/like/delete/${username}/${post}`);
 
     return response.data;
 

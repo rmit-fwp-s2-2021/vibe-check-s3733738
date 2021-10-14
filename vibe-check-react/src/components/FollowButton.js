@@ -1,5 +1,5 @@
 import React,{ useState}  from 'react';
-import { getUser , follow ,unfollow} from '../data/repository';
+import { getUser , follow ,unfollow } from '../data/repository';
 
 // DISPLAY FOLLOW OR FOLLOWING BUTTON
 const FollowButton = ({user}) => {

@@ -56,10 +56,10 @@ exports.getUserDislikedPost = async(req,res) =>{
 
 // create like or dislike in db
 exports.likeOrDislikePost = async(req, res) => {
+
     const like = await db.like.create({
         username: req.params.username,
         post_id : req.body.post_id,
-        // can be true/false or 1/0
         like:  req.body.like
     });
 
@@ -73,7 +73,7 @@ exports.deleteLikeOrDislike = async(req,res) =>{
     const user = req.params.username;
 
     // request to unfollow a user
-    const post = req.body.post_id;
+    const post = req.params.post_id;
 
     const deleteLikeOrDislike = await db.like.findOne({
         where:{

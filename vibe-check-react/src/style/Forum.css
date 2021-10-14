@@ -28,20 +28,31 @@
 
     width: 24px;
     height: 24px;
+    opacity: 0.4;
+ 
+}
+
+.like-img-liked{
+
+    width: 24px;
+    height: 24px;
+
 }
 
 .like-img:hover{
-    opacity: 0.5;
+    opacity: 1.0;
 }
 
 .dislike-img{
 
     width: 24px;
     height: 24px;
+    opacity: 0.4;
+
 }
 
 .dislike-img:hover{
-    opacity: 0.5;
+    opacity: 1.0;
 }
 
 
