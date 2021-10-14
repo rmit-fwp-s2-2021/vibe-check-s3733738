@@ -20,29 +20,29 @@ function Login() {
   const handleInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-
     const temp = { ...fields };
     temp[name] = value;
     setFields(temp);
   }
 
   const handleSubmit = async (event) => {
-
+    // stop page from refreshing
     event.preventDefault();
 
+    // vertfiy user with API endpoint
     const user = await verifyUser(fields.username, fields.password);
 
-    if( user === null){
-       // Login failed, reset password field to blank and set error message.
-       setFields({ ...fields, password: "" });
-       setErrorMessage("Username and / or password invalid, please try again.");
-       return;
-    }
-      
-      setUserLogIn(user);
-      // Navigate to the home page.
-      history.push("/");
+    if (user === null) {
+      // Login failed, reset password field to blank and set error message.
+      setFields({ ...fields, password: "" });
+      setErrorMessage("Username and / or password invalid, please try again.");
       return;
+    }
+
+    setUserLogIn(user);
+    // Navigate to the forum
+    history.push("/forum");
+    return;
 
   }
 
@@ -57,7 +57,7 @@ function Login() {
               <input name="username" id="username" className="form-control"
                 value={fields.username} onChange={handleInputChange} />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="password" className="control-label">Password</label>
               <input type="password" name="password" id="password" className="form-control"
@@ -71,11 +71,11 @@ function Login() {
                 <span className="text-danger">{errorMessage}</span>
               </div>
             }
-             <div className="form-group mt-4 text-center">
-             <p>
-                    Don't have an account?{" "}
-                    <Link to="/register"> Create account</Link>
-                  </p>
+            <div className="form-group mt-4 text-center">
+              <p>
+                Don't have an account?{" "}
+                <Link to="/register"> Create account</Link>
+              </p>
             </div>
           </form>
         </div>

@@ -16,6 +16,12 @@ module.exports = (express, app) => {
 
     // delete a post 
     router.delete("/delete/:post_id", controller.delete);
+    
+    // like a post
+    // router.put("/like/:post_id", controller.like);
+
+    // unlike a post
+
 
     // add routes to server
     // this app.user tells one how to call an API

@@ -1,11 +1,12 @@
 import React,{ useState, useEffect }  from 'react';
 import { getFollowable, getUser , follow } from '../data/repository';
+import { FollowButton } from './FollowButton';
 
 const Connect = (props) => {
 
     
     const [ connect, setConnect ] = useState(null);
-    const [ button, setButton] = useState("Follow");
+    //const [ button, setButton] = useState("Follow");
 
     
     useEffect(() => {
@@ -44,12 +45,12 @@ const Connect = (props) => {
    
     
 
-    async function handleFollow(followUser){
-        const targetUser ={ "targetUser": followUser};
-        await follow(getUser().username, targetUser);
-        setButton("Following");
-        return;
-    }
+    // async function handleFollow(followUser){
+    //     const targetUser ={ "targetUser": followUser};
+    //     await follow(getUser().username, targetUser);
+    //     setButton("Following");
+    //     return;
+    // }
 
 
     // const handleFollowStatus=(username)=>{
@@ -82,9 +83,9 @@ const Connect = (props) => {
                      
                          <h6>{user}</h6>
                          <span>
-                             <button className="btn btn-outline-primary rounded-pill" onClick={()=> handleFollow(user) }>
-                             { button }
-                         </button>
+
+                             < FollowButton user={user}/>
+                         
                          </span>
                         
                      </li>

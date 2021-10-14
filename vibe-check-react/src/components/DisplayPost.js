@@ -5,6 +5,7 @@ import { createReply, getPosts } from '../data/posts';
 import DeletePost from './DeletePost';
 import EditPost from './EditPost';
 import Reply  from './Reply';
+import LikeDislike from './LikeDislike';
 
 
 export default function DisplayPost(props) {
@@ -122,9 +123,10 @@ export default function DisplayPost(props) {
                   <i className="fas fa-reply"></i>Reply
                 </p>
               </button> */}
-              <div className="col">
+              <span className="d-flex justify-content-start">
+                <LikeDislike postid={x.post_id}/>
                 <Reply postid={x.post_id} />
-              </div>
+              </span>
               
               {/* DISPLAY REPLIES ON POST */}
 

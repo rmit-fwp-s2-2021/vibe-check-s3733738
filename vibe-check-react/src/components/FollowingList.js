@@ -1,9 +1,10 @@
-import React,{ useState, useEffect }  from 'react';
-import { getFollowing, getFollowable, getUser, unfollow } from '../data/repository';
+import React, { useState, useEffect } from 'react';
+import { getFollowing, getUser } from '../data/repository';
+import { FollowingButton } from './FollowButton';
 
+// LIST THE USERS FOLLOWED BY LOGGED IN USER IN PROFILE PAGE
 const FollowingList = () => {
     const [following, setFollowing] = useState(null);
-    const [ button, setButton] = useState("Following");
 
     useEffect(() => {
         async function loadConnect() {
@@ -21,12 +22,6 @@ const FollowingList = () => {
         loadConnect();
     }, []);
 
-    async function handleUnfollow(following){
-        await unfollow(getUser().username, following);
-        setButton("Follow");
-        return;
-    }
-
 
     return (
         <div className="col-xl-3 my-3 p-3 bg-light">
@@ -40,21 +35,15 @@ const FollowingList = () => {
                         :
                         following.map((user) =>
                             <li className="list-group-item d-flex justify-content-between align-items center">
-
                                 <h6>{user.following_name}</h6>
                                 <span>
-                                    <button className="btn btn-primary rounded-pill" onClick={()=>{handleUnfollow(user.following_name)}}>
-                                        {button}
-                                    </button>
+                                    < FollowingButton user={user.following_name} />
                                 </span>
-
                             </li>
                         )
-
                 }
 
             </ul>
-
         </div>
     )
 }

@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) =>
         username:{
             type: DataTypes.STRING(32),
             allowNull: false,
-            primaryKey: true
+            primaryKey: true,
+            unique: true
         },
         email: {
             type: DataTypes.STRING(64),

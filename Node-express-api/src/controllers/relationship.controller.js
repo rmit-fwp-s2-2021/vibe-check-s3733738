@@ -49,7 +49,7 @@ exports.canFollow = async (req, res) =>{
     followable.map(user=>{
         canFollow.push(user.username);
     });
-    return res.json(canFollow);
+    res.json(canFollow);
    
 
     // let canFollow =[];
@@ -73,7 +73,7 @@ exports.canFollow = async (req, res) =>{
     //     res.json(canFollow);
 
     // }
-    res.json(followable);
+    //res.json(followable);
     
 }
 

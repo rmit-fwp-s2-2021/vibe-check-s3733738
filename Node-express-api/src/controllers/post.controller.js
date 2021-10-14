@@ -3,7 +3,7 @@ const db = require("../database");
 // select all posts from the database
 
 exports.all = async(req, res) => {
-  const posts = await db.post.findAll();
+  const posts = await db.post.findAll({});
 
   // Can use eager loading to join tables if needed, for example:
   //const posts = await db.post.findAll({ include: db.user});
@@ -57,4 +57,22 @@ exports.delete = async(req, res)=> {
     res.json({message: "post has deleted"});
 
 }
+
+// like post 
+// exports.like = async(req, res)=> {
+//     try{
+//         const post = await db.post.findByPk(req.params.post_id);
+
+//         // check if the post has already been like
+//         post.likes = req.body.username;
+
+//         await post.save;
+
+//         res.json(post.likes);
+        
+//     } catch(err){
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
+// }
 

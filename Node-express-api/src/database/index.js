@@ -20,6 +20,7 @@ db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.post = require("./models/post.js")(db.sequelize, DataTypes);
 db.comment = require("./models/comment.js")(db.sequelize, DataTypes);
 db.relationship = require("./models/relationship.js")(db, DataTypes);
+db.like = require("./models/like.js")(db, DataTypes);
 
 // Relate post and user.
 // fk field to the post table name will be username
@@ -34,11 +35,17 @@ db.post.hasMany(db.comment, {foreignKey: "replyTo_id", as:'comments', onDelete: 
 db.comment.belongsTo(db.post, { as: 'post', foreignKey: 'replyTo_id'});
 db.comment.belongsTo(db.user, { as: 'commentAuthor', foreignKey: 'comment_author'});
 
+
+// // POST_LIKES_USER
+db.post.hasMany(db.like, { foreignKey: "post_id", as:"like", onDelete: 'cascade', hooks: true });
+db.like.belongsTo(db.user, {foreignKey:'username'});
+db.like.belongsTo(db.post, {as: "post", foreignKey:'post_id'});
+
 // relationship
 // -------------
 //| follower | following |
-db.relationship.belongsTo(db.user, {as:'following', foreignKey:'username'});
-db.relationship.belongsTo(db.user, {as: 'follower', foreignKey:'username'});
+//db.relationship.belongsTo(db.user, {foreignKey:'username'});
+//db.relationship.belongsTo(db.user, {as: 'follower', foreignKey:'username'});
 
 
 
@@ -50,11 +57,11 @@ db.sync = async () => {
   // Sync schema.
   // create the tables
   // wait for the promise to finish then move to the next
-  await db.sequelize.sync();
+  //await db.sequelize.sync();
 
   // Can sync with force if the schema has become out of date - note that syncing with force is a destructive operation.
   // drop all tables firsty
-//await db.sequelize.sync({ force: true });
+  await db.sequelize.sync({ force: true });
   
   await seedData();
 };
@@ -75,6 +82,13 @@ async function seedData() {
 
   hash = await argon2.hash("Password2!", { type: argon2.argon2id });
   await db.user.create({ username: "tester2", password_hash: hash, email: "test321@test.com", date: new Date().toDateString()});
+
+  hash = await argon2.hash("Password3!", { type: argon2.argon2id });
+  await db.user.create({ username: "tester3", password_hash: hash, email: "test1234@test.com", date: new Date().toDateString()});
+
+  hash = await argon2.hash("Password4!", { type: argon2.argon2id });
+  await db.user.create({ username: "tester4", password_hash: hash, email: "test12345@test.com", date: new Date().toDateString()});
+
 
 
 
@@ -100,6 +114,14 @@ async function seedData() {
     return;
   
   await db.relationship.create({ follower_name: "tester1" , following_name: "tester2"});
+
+  await db.like.create({ username: "tester1" , post_id: 1, like: true});
+  await db.like.create({ username: "tester1" , post_id: 2, like: true});
+  await db.like.create({ username: "tester2" , post_id: 2, like: true});
+  await db.like.create({ username: "tester3" , post_id: 2, like: true});
+  await db.like.create({ username: "tester4" , post_id: 2, like: false});
+
+  
   
 }
 

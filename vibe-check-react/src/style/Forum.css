@@ -22,3 +22,29 @@
     opacity: 0.5;
  
  }
+ 
+
+.like-img{
+
+    width: 24px;
+    height: 24px;
+}
+
+.like-img:hover{
+    opacity: 0.5;
+}
+
+.dislike-img{
+
+    width: 24px;
+    height: 24px;
+}
+
+.dislike-img:hover{
+    opacity: 0.5;
+}
+
+
+
+
+ 
