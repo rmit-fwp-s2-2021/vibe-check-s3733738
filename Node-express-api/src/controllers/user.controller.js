@@ -11,7 +11,7 @@ exports.all = async(req,res) => {
 
 // Select one user from the databse 
 exports.one = async(req, res) => {
-    const user = await db.user.findByPk(req.params.id);
+    const user = await db.user.findByPk(req.params.username);
 
     res.json(user);
 
@@ -54,7 +54,7 @@ exports.create = async(req, res) => {
     res.json(user);
 };
 
-
+// update user details
 exports.update = async(req, res) => {
     
     const email  = req.body.email;

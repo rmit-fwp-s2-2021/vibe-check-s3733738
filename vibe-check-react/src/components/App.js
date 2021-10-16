@@ -8,7 +8,7 @@ import MyProfile from './MyProfile';
 import EditProfile from './EditProfile';
 import Forum from './Forum';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-//import './App.css';
+import '../App.css';
 import { removeUser } from '../data/repository';
 import { UserContext } from '../contexts/UserContext';
 import { AvatarContext } from '../contexts/AvatarContext';

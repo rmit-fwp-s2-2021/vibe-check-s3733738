@@ -55,6 +55,11 @@
     opacity: 1.0;
 }
 
+.post-img{
+    max-width: 350px;
+    max-height: 350px;
+}
+
 
 
 

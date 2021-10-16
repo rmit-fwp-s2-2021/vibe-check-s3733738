@@ -1,91 +1,48 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { UserContext } from '../contexts/UserContext';
-import { getUser } from '../data/repository';
-import { createReply, getPosts } from '../data/posts';
+import React, { useState, useEffect } from 'react'
+import { getUser, getUsers } from '../data/repository';
 import DeletePost from './DeletePost';
 import EditPost from './EditPost';
-import Reply  from './Reply';
+import Reply from './Reply';
 import LikeDislike from './LikeDislike';
 import { getUserLikedPost, getUserDislikedPost } from '../data/posts';
+import Avatar from './Avatar'
 
-export default function DisplayPost(props) {
+export default function DisplayPost({ posts, users, handleDelete, handleEdit }) {
 
-  const username = getUser().username;
-  // const [replyFields, setReplyFields ] = useState({message: "", reply_author: getUser().username, post_id: ""});
+  const currentUser = getUser().username;
+  
+  const [userLiked, setUserLiked] = useState(null);
 
-  // const [errorMessage, setErrorMessage] = useState("");
-  const [ userLiked, setUserLiked ]= useState(null);
+  const [userDisliked, setUserDisliked] = useState(null);
 
-  const [ userDisliked, setUserDisliked ]= useState(null);
+  
 
-
-  useEffect(()=>{
+  useEffect(() => {
     async function loadLikedDisliked() {
 
-      const likedPost = await getUserLikedPost(username);
+      const likedPost = await getUserLikedPost(currentUser);
       setUserLiked(likedPost);
-      console.log("user liked post:" +likedPost);
+      console.log("user liked post:" + likedPost);
 
-      const dislikedPost = await getUserDislikedPost(username);
+      const dislikedPost = await getUserDislikedPost(currentUser);
       setUserDisliked(dislikedPost);
       console.log("user disliked post:" + dislikedPost);
+
+
       return;
 
-  }
-
-  loadLikedDisliked();
-  }, []);
-
-  const posts = props.posts;
+    }
+    loadLikedDisliked();
+  }, [currentUser]);
 
   if (posts === null) {
     return null
   }
 
-  // const replyForm =() => {
-  //   setReplyFields({... replyFields, post_id: props.postid});
-  //   console.log(replyFields);
+  
 
-  //   return (
-  //     <div className="col">
-  //     <form onSubmit={handleReplySubmit}>
-  //         <fieldset>
-  //         <div className="form-group">
-  //             <textarea name="message" id="message" className="form-control" rows="3"
-  //               value={replyFields.message} onChange={handleInputChange} />
-  //           </div>
-  //           <div className="form-group">
-  //             <input type="submit" className="btn btn-primary" value="Post" />
-  //           </div>
-  //         </fieldset>
-  //     </form>
-  //     </div>
-  //   );
-   
-  // } 
+ 
 
-  // const handleReplySubmit = async(event) =>{
-  //   event.preventDefault();
-
-  //   const postTrimmed = replyFields.message.trim();
-
-  //   //  if textbox field is empty return error
-  //   if (postTrimmed === "") {
-  //     setErrorMessage("Post cannot be empty");
-  //     return;
-  //   }
-
-  //   // insert new comment in database
-  //   await createReply({...replyFields, postTrimmed});
-
-  //   // //make  post field empty
-  //   setReplyFields({...replyFields, message: ""});
-  //   // //clear error message
-  //   setErrorMessage("");
-
-  //   return;
-
-  // }
 
   return (
 
@@ -95,12 +52,14 @@ export default function DisplayPost(props) {
         posts.length === 0 ?
           <span className="text-muted">No posts have been submitted.</span>
           :
-
-
           posts.map((x) =>
             <div className="border my-3 p-3" style={{ whiteSpace: "pre-wrap" }}>
-              <span className="d-flex justify-content-start  align-items-center">
-                {/* <img src={handleAvatarImg(x.email)}  height="50px" width="50px" className="rounded-circle"  alt="profileimg" ></img> */}
+              <span className="d-flex align-items-center">
+                <div className="my-3" >
+                  { users &&
+                  <Avatar username={x.username} users={users}/>
+                  }   
+                </div>
                 <h6>{x.username}</h6>
                 <div className="p-2 ml-auto">
 
@@ -109,10 +68,10 @@ export default function DisplayPost(props) {
                   {getUser().username === x.username ?
                     <div className="row">
                       <div className="col-1">
-                        <EditPost postid={x.post_id} />
+                        <EditPost postid={x.post_id} handleEdit={handleEdit} />
                       </div>
                       <div className="col">
-                        <DeletePost postid={x.post_id} />
+                        <DeletePost postid={x.post_id} handleDelete={handleDelete}/>
                       </div>
                     </div>
 
@@ -126,43 +85,42 @@ export default function DisplayPost(props) {
 
               <span className="d-flex justify-content-between">
                 {x.text}
+                {x.image_path !== null && 
+                    <div className="image-post">
+                    <img src={x.image_path} className="post-img rounded img-fluid" alt={x.image_path}></img>
+                    </div>
+                    }
+                  
               </span>
-              {/* <button className="btn btn-default" onClick={replyForm} postid={x.post_id}>
-                <p className="mb-0">
-                  <i className="fas fa-reply"></i>Reply
-                </p>
-              </button> */}
               <span className="d-flex justify-content-start">
-                <LikeDislike postid={x.post_id} userLiked={userLiked} userDisliked={userDisliked}/>
+                <LikeDislike postid={x.post_id} userLiked={userLiked} userDisliked={userDisliked} />
                 <Reply postid={x.post_id} />
               </span>
-              
+
               {/* DISPLAY REPLIES ON POST */}
 
-              {posts.comments !== 0 ?
+              {posts.comments !== 0 &&
                 <div className="border my-3 p-3">
                   <span className="d-flex-col justify-content-start  align-items-center">
-                    <p>Replies:</p>
+                    
                     {x.comments.map((r) => {
                       return (
                         <>
-                          <div className="row p-2 my-3">
+                        <p>Replies:</p>
+                          <div className="row p-2 my-3 align-items-center">
+                             <Avatar username={r.comment_author} users={users}/>
                             <h6>{r.comment_author}</h6>
                           </div>
-
                           {r.message}
-
-
                         </>
                       );
                     })}
                   </span>
                 </div>
-                : null
+
+              
 
               }
-
-
             </div>
           )
       }

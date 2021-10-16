@@ -6,7 +6,7 @@ import { deletePost, getPosts } from '../data/posts';
 import '../style/Forum.css';
 import { useHistory } from "react-router-dom";
 
-function DeletePost(props) {
+function DeletePost({ postid, handleDelete}) {
 
     const [show, setShow] = useState(false);
 
@@ -18,11 +18,12 @@ function DeletePost(props) {
 
     const handleCloseAndConfirm = async () => {
        
-        const id = props.postid;
          //   delete post from database
-        await deletePost(id);
+        await deletePost(postid);
         //   change show  modal state
         setShow(false);
+
+        handleDelete();
 
         //props.setPosts(getPosts());
         history.push("/forum");

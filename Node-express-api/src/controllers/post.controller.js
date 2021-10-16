@@ -25,7 +25,7 @@ exports.create = async(req, res) => {
     const post = await db.post.create({
         text: req.body.text,
         username : req.body.username,
-        image_path: req.body.image_path
+        image_path: req.body.image_url
     });
 
     res.json(post);

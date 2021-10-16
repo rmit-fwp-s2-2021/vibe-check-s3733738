@@ -78,13 +78,13 @@ async function seedData() {
   const argon2 = require("argon2");
 
   let hash = await argon2.hash("Password1!", { type: argon2.argon2id });
-  await db.user.create({ username: "tester1", password_hash: hash, email: "tester123@test.com", date: new Date().toDateString(), image: "/Avatar/ben-parker-OhKElOkQ3RE-unsplash.jpeg"});
+  await db.user.create({ username: "tester1", password_hash: hash, email: "tester123@test.com", date: new Date().toDateString(), image_path: "images/ben-parker-OhKElOkQ3RE-unsplash.jpeg"});
 
   hash = await argon2.hash("Password2!", { type: argon2.argon2id });
   await db.user.create({ username: "tester2", password_hash: hash, email: "test321@test.com", date: new Date().toDateString()});
 
   hash = await argon2.hash("Password3!", { type: argon2.argon2id });
-  await db.user.create({ username: "tester3", password_hash: hash, email: "test1234@test.com", date: new Date().toDateString()});
+  await db.user.create({ username: "tester3", password_hash: hash, email: "test1234@test.com", date: new Date().toDateString(), image_path: "images/luis-villasmil-6qf1uljGpU4-unsplash.jpeg"});
 
   hash = await argon2.hash("Password4!", { type: argon2.argon2id });
   await db.user.create({ username: "tester4", password_hash: hash, email: "test12345@test.com", date: new Date().toDateString()});
@@ -97,8 +97,8 @@ async function seedData() {
   if(post_count > 0)
     return;
 
-  await db.post.create({ username: "tester1" ,text: "does anyone else have any mandatory classes on campus despite the covid stuff going around on campus? how does that make you feel and is there any way around it or do we have to suck it up and risk getting covid and such?", image_path: "../vibe-check-react/src/media/PostImage/947_large.png"});
-  await db.post.create({ username: "tester2" ,text: "Hello, I was just wondering if there is any opportunities for scholarships for continuing international students, the website only seems to show scholarship opportunities for commencing international students", image_path: "../vibe-check-react/src/media/PostImage/947_large.png"});
+  await db.post.create({ username: "tester1" ,text: "does anyone else have any mandatory classes on campus despite the covid stuff going around on campus? how does that make you feel and is there any way around it or do we have to suck it up and risk getting covid and such?"});
+  await db.post.create({ username: "tester2" ,text: "Hello, I was just wondering if there is any opportunities for scholarships for continuing international students, the website only seems to show scholarship opportunities for commencing international students", image_path: "https://i.ibb.co/WVVt6gC/cover1.jpg"});
 
   const comment_count = await db.comment.count();
 

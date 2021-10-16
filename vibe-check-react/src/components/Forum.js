@@ -1,25 +1,40 @@
 import React, { useState , useEffect } from 'react'
 import { getUser, getUsers } from '../data/repository';
-import { getFollowing, getFollowable } from '../data/repository';
 import { createPost, getPosts, getPostsAndReplies } from '../data/posts';
 import DisplayPost from './DisplayPost';
 import Connect from './Connect.js';
 
 function Forum() {
 
+  const username = getUser().username;
+
   const [posts, setPosts] = useState(null);
 
   const [fields, setFields] = useState({ 
-    username: getUser().username,
+    username: username,
     text: "",
-    //image_url: ""
+    image_url: ""
   });
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [image, setImage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [files, setFiles] = useState([]); 
+  const [users, setUsers] = useState(null);
 
-  const [image64String, setImage64String] = useState("");
+  const [ deletePost, setDeletePost ] = useState(false);
+
+  const [ editPost, setEditPost] = useState(false);
+
+  const handleDelete = () => {
+    setDeletePost(true);
+    return;
+  }
+
+  const handleEdit = () => {
+    setEditPost(true);
+    return;
+  }
 
 
   useEffect(() => {
@@ -28,9 +43,16 @@ function Forum() {
       const currentPosts = await getPostsAndReplies();
       
       setPosts(currentPosts);
+
+      //load all users
+      const users = await getUsers();
+      setUsers(users);
+
+      setDeletePost(false);
+      setEditPost(false);
     }
     loadPosts();
-  }, []);
+  }, [username, deletePost, editPost]);
 
 
 
@@ -56,15 +78,10 @@ function Forum() {
       return;
     }
 
-    // const formData = new FormData();
-    // formData.append("text", fields.texttext);
-    // formData.append("username", getUser().username);
-    // formData.append('image_url', post.file);
-
-    //create post
-    //setPosts({ username: getUser().email, post: postTrimmed });
+  
     
     // insert new post in batabase 
+    console.log(fields);
     await createPost({...fields, postTrimmed});
 
     const posts = await getPostsAndReplies();
@@ -73,7 +90,9 @@ function Forum() {
     // //set post to localStorage
     // //insertPost(postTrimmed, getUser().email);
     // //make  post field empty
-    setFields({...fields, text: ""});
+   
+    setFields({...fields, text: "", image_url:""});
+    setImage("");
     // //clear error message
     setErrorMessage("");
 
@@ -82,53 +101,37 @@ function Forum() {
     
   }
 
-
-//   const handleAvatarImg  = (email) =>{
-//     const users = getUsers();
-//     //loop users in the localStorage
-//     for (const user of users) {
-//       if (email === user.email) {
-//         //return profileImg
-//         return user.profileImg;
-//       }
-//     }
-//   }
-
-const handleFileUpload = (event) => {
-    // encode images from local file system 
-
-    setFiles(event.target.files);
-    let file = event.target.files[0];
-    // image constructor 
-    const image = new Image();
-
-    // encode the file using FileReader API
-    const reader = new FileReader();
-    // if file exist
-    if (file){
-      // reader information in the file object
-      reader.readAsDataURL(file);
-      //set the result and store into image64String
-      reader.onload = () => {
-        var base64 = reader.result;
-        console.log(base64);
-        setImage64String(base64);
+   
+   
+    const handleFileUpload = async (event) => {
+      const files = event.target.files;
+      if (files[0]) {
+        const data = new FormData();
+        data.append("image", files[0]);
+        setLoading(true);
+         // free image hosting api
+        const result = await fetch(
+          "https://api.imgbb.com/1/upload?&key=46f55d39151e14d1eefd8420530fb11b",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+        const file = await result.json();
+        const url = file.data.url;
+        setImage(url);
+        console.log(url);
+        setLoading(false);
+  
+        //SETS THE IMAGE URL TO THE FIELDS
+        setFields({
+          ...fields,
+          image_url : url,
+        });
+      } else {
+        return;
       }
-      reader.onerror = (error) => {
-        console.log("error", error)
-      }
-    }
-  };
-    // if( files[0]?.file) {
-    //   // assign image url to image
-    //   image.src = URL.createObjectURL(files[0]?.file);
-    //   toBase64(files[0]?.file).then((r) => {
-    //     setImage(r);
-    //   });
-    
-    // } else {
-    //   setImage(null);
-    // }
+    };
 
 
 
@@ -144,28 +147,33 @@ const handleFileUpload = (event) => {
               <textarea name="text" id="text" className="form-control" rows="3"
                 value={fields.text} onChange={handleInputChange} />
             </div>
-            <div>
-                <p>Upload image</p>
-                <input type="file" name="file" onChange={handleFileUpload}></input>
-            </div>
+            <input type="file" name="file" onChange={handleFileUpload}></input>
             {errorMessage !== null &&
               <div className="form-group">
                 <span className="text-danger">{errorMessage}</span>
               </div>
             }
-            <div className="form-group">
-              <input type="button" className="btn btn-danger mr-5" value="Cancel"
-                onClick={() => { setFields({text: ""}); setErrorMessage(null); }} />
-              <input type="submit" className="btn btn-primary" value="Post" />
+            <div className="d-flex justify-content-end">
+               
+                <button type="submit" className="btn btn-primary btn-lg rounded-pill" value="Post">Post</button>
             </div>
+      
+            {loading ? (
+            <p>Image uploading...</p>
+          ) : (
+            <div className="image-preview text-center my-3">
+              <img src={image} className="post-img rounded img-fluid" alt={image}></img>
+            </div>
+          )}
+            
           </fieldset>
         </form>
       </div>
       <hr />
       <h1>Forum</h1>
-          <DisplayPost posts={posts}/>
+          <DisplayPost posts={posts} users={users} handleDelete={handleDelete} handleEdit={handleEdit}/>
     </div>
-    <Connect />
+          <Connect users={users}/>
     </div>
     </>
   )

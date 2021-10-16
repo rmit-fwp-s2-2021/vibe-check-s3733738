@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 // import DeletePost from './DeletePost';
-import { getUser } from '../data/repository';
+import { getUser , editUser } from '../data/repository';
 // import { getPosts, editPost } from '../data/posts';
 import '../style/MyProfile.css';
 import DeleteAcc from './DeleteAcc';
@@ -29,7 +29,7 @@ function MyProfile() {
     // const handleAvatarChange = (avatarImage) => {
     //     setAvatarImage(avatarImage);
     //     const user = {...getUser(), profileImg: avatarImage};
-    //      editUser(user);
+    //     editUser(user);
 
     // }   
 

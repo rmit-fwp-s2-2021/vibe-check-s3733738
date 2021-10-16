@@ -1,18 +1,18 @@
 import { getUsers } from '../data/repository';
 import React, { useEffect, useState } from 'react';
-import edit from '../media/editing.png';
+import editIcon from '../media/editing.png';
 import { Modal, Form } from 'react-bootstrap';
 import { getPost, editPost } from '../data/posts';
 
 
-export default function EditPost(props) {
+export default function EditPost({ postid, handleEdit}) {
 
     // field for editing post
     const [editPostField, setEditPostField] = useState({ "text": "" });
     // display error message if post is empty 
     const [errorMessage, setErrorMessage] = useState("");
     //set postId as index
-    const [index, setIndex] = useState(props.postid);
+    const [index, setIndex] = useState(postid);
     //control display edit inputbox 
     const [show, setShow] = useState(false);
     //set Modal show state
@@ -55,6 +55,7 @@ export default function EditPost(props) {
         await editPost(editPostField, index);
         setVisible(false);
         setShow(false);
+        handleEdit();
         return;
     }
 
@@ -63,7 +64,7 @@ export default function EditPost(props) {
     return (
         <>
             <div className="PostEditModal">
-                <img src={edit} className="edit-img" alt="edit-img" onClick={showModal}></img>
+                <img src={editIcon} className="edit-img" alt="edit-img" onClick={showModal}></img>
                 <Modal show={visible}>
                     <Modal.Header>
                         <Modal.Title>Edit Post</Modal.Title>

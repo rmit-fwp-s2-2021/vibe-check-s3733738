@@ -65,7 +65,7 @@ function EditProfile(){
 
     const getUserInLocal = getUser();
     editUser(fields);
-    setUser({ ...fields, date: getUserInLocal.date,image: getUserInLocal.image });
+    setUser({ ...fields, date: getUserInLocal.date,imageUrl: getUserInLocal.image });
     setUserLogIn(fields);
     history.push("/profile");
     return;

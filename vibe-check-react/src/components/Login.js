@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Link } from 'react-router-dom';
-import { verifyUser } from "../data/repository";
+import { verifyUser, findUser } from "../data/repository";
 import img from "../media/priscilla-du-preez-XkKCui44iM0-unsplash.jpeg";
 import '../style/Form.css';
 import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router-dom";
+import { AvatarContext } from "../contexts/AvatarContext";
 
 function Login() {
 
@@ -13,6 +14,8 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState(null);
 
   const { setUserLogIn } = useContext(UserContext);
+
+  const { avatarImage, setAvatarImage } = useContext(AvatarContext);
 
   const history = useHistory();
 
@@ -38,6 +41,10 @@ function Login() {
       setErrorMessage("Username and / or password invalid, please try again.");
       return;
     }
+
+    const loginUser = await findUser(fields.username);
+
+    setAvatarImage(loginUser.image_path);
 
     setUserLogIn(user);
     // Navigate to the forum
