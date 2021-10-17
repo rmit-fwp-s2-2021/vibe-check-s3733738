@@ -13,7 +13,7 @@ const Avatar = ({ username, users }) => {
              
             });
           }
-    },[username]);
+    },[username,users]);
       
 
     return (

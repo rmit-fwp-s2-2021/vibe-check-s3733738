@@ -48,7 +48,7 @@ db.like.belongsTo(db.post, {as: "post", foreignKey:'post_id'});
 
 // Include a sync option with seed data logic included
 db.sync = async () => {
-  await db.sequelize.sync({ force: true });
+  await db.sequelize.sync({});
 
   await seedData();
 };
@@ -115,6 +115,12 @@ async function seedData() {
   
   await db.relationship.create({ follower_name: "Wansi06" , following_name: "jason123"});
   await db.relationship.create({ follower_name: "Wansi06" , following_name: "Charmaineee"});
+
+  const like_count = await db.like.count();
+
+  if(like_count > 0)
+
+  return;
 
   await db.like.create({ username: "Wansi06" , post_id: 1, like: true});
   await db.like.create({ username: "Wansi06" , post_id: 2, like: true});

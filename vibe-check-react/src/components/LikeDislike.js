@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { getUser } from '../data/repository';
 import like from '../media/like.png';
 import dislike from '../media/dislike.png';
-import { getLikeCount, getDislikeCount, getUserLikedPost, getUserDislikedPost, likeOrDislikePost, deleteLikeOrDislike } from '../data/posts';
+import { getLikeCount, getDislikeCount, likeOrDislikePost, deleteLikeOrDislike } from '../data/posts';
 
 // LIKE AND DISLIKE COUNT AND BUTTON
 const LikeDislike = ({ postid, userLiked, userDisliked }) => {
@@ -39,19 +39,21 @@ const LikeDislike = ({ postid, userLiked, userDisliked }) => {
 
                 if (userLiked !== null) {
                     userLiked.map(post => {
-                        if (post == postid) {
+                        if (post === postid) {
                             setLikeButton(true);
-                            likeElement.current.style.opacity = "1.0";
+                            likeElement.current.style.opacity = "1.0";   
                         }
+                        return;
                     });
                 }
 
                 if (userDisliked !== null) {
                     userDisliked.map(post => {
-                        if (postid == post) {
+                        if (postid === post) {
                             setDislikeButton(true);
-                            dislikeElement.current.style.opacity = "1.0";
+                            dislikeElement.current.style.opacity = "1.0";    
                         }
+                        return;
                     });
                 }
 
@@ -64,7 +66,7 @@ const LikeDislike = ({ postid, userLiked, userDisliked }) => {
             }
         }
         loadLikesDislike();
-    }, [likeButton, dislikeButton]);
+    }, [likeButton, dislikeButton, postid, userDisliked, userLiked]);
 
 
 
@@ -74,7 +76,7 @@ const LikeDislike = ({ postid, userLiked, userDisliked }) => {
         event.preventDefault();
 
         // if the person press on the previous liked like button, delete the record 
-        if (likeButton == true) {
+        if (likeButton === true) {
 
             await deleteLikeOrDislike(username, postid);
             setLikeButton(false);
@@ -94,7 +96,7 @@ const LikeDislike = ({ postid, userLiked, userDisliked }) => {
     const handleDislikeClick = async (event) => {
         event.preventDefault();
         // if the person press on the previous liked like button, delete the record 
-        if (dislikeButton == true) {
+        if (dislikeButton === true) {
 
             await deleteLikeOrDislike(username, postid);
             setDislikeButton(false);

@@ -17,7 +17,7 @@ function Login() {
 
   const { setUserLogIn } = useContext(UserContext);
 
-  const { avatarImage, setAvatarImage } = useContext(AvatarContext);
+  const { setAvatarImage } = useContext(AvatarContext);
 
   const history = useHistory();
 

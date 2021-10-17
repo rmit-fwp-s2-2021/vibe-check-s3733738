@@ -3,7 +3,6 @@ import axios from "axios";
 
 // -- Constants ------------------------
 const API_HOST = "http://localhost:4000";
-const USERS_KEY = "users";
 const USER_KEY = "user";
 //const date = new Date();
 
@@ -47,7 +46,7 @@ async function editUser(user) {
 }
 
 async function changeUserAvatar(username, image_path){
-  
+
   const response = await axios.put(API_HOST + `/api/users/avatarChange/${username}`, image_path);
   
   return response.data;

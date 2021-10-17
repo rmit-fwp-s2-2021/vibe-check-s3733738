@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { getUser } from '../data/repository';
 import { createReply } from '../data/posts';
-import replyIcon from '../media/reply.png';
 import '../style/Forum.css';
 
 export default function Reply({ postid, handlePostComment, showForm }) {
-
 
     const [replyFields, setReplyFields] = useState({ message: "", image_path: "", reply_author: getUser().username, post_id: postid });
 
@@ -40,7 +38,7 @@ export default function Reply({ postid, handlePostComment, showForm }) {
         await createReply({ ...replyFields, message: postTrimmed });
 
         // //make  post field empty
-        setReplyFields({ ...replyFields, message: "", image_path:"" });
+        setReplyFields({ ...replyFields, message: "", image_path: "" });
         // //clear error message
         setErrorMessage("");
 
@@ -69,7 +67,7 @@ export default function Reply({ postid, handlePostComment, showForm }) {
             setImage(url);
             setLoading(false);
 
-            //SETS THE IMAGE URL TO THE FIELDS
+            //sets the image url to the reply fields
             setReplyFields({
                 ...replyFields,
                 image_path: url,
@@ -78,8 +76,6 @@ export default function Reply({ postid, handlePostComment, showForm }) {
             return;
         }
     };
-
-
 
     return (
 

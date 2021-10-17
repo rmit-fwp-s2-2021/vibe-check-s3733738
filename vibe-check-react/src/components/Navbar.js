@@ -3,16 +3,12 @@ import { Link } from 'react-router-dom';
 import { getUser } from '../data/repository';
 import '../style/Navbar.css';
 import { UserContext } from '../contexts/UserContext';
-import { AvatarContext } from '../contexts/AvatarContext';
 import profileIcon from '../media/profile.png';
 
 function Navbar() {
 
     //  Navbar is opting-in to view and mutate userLogIn state 
     const { userLogIn, logoutUser } = useContext(UserContext);
-    // update avatar image display on navbar
-    const { avatarImage } = useContext(AvatarContext);
-
 
     return (
         <nav className="navbar">
@@ -36,8 +32,6 @@ function Navbar() {
                                         Forum
                                     </Link>
                                 </li>
-
-
 
                                 <li className="nav-item">
                                     <Link className="nav-button" to="/login" id='logout' onClick={logoutUser} >

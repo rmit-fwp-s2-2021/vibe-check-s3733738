@@ -2,11 +2,11 @@ import bin from '../media/bin.png';
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import '../style/MyProfile.css';
-import { deletePost, getPosts } from '../data/posts';
+import { deletePost } from '../data/posts';
 import '../style/Forum.css';
 import { useHistory } from "react-router-dom";
 
-function DeletePost({ postid, handleDelete}) {
+function DeletePost({ postid, handleDelete }) {
 
     const [show, setShow] = useState(false);
 
@@ -17,19 +17,16 @@ function DeletePost({ postid, handleDelete}) {
     const history = useHistory();
 
     const handleCloseAndConfirm = async () => {
-       
-         //   delete post from database
+
+        //   delete post from database
         await deletePost(postid);
         //   change show  modal state
         setShow(false);
 
         handleDelete();
 
-        //props.setPosts(getPosts());
         history.push("/forum");
-        
-        // change posts state
-        //props.setPosts(getPosts());
+
         return;
     }
 

@@ -1,6 +1,6 @@
 import React, { useState , useEffect , useContext} from 'react'
 import { getUser, getUsers } from '../data/repository';
-import { createPost, getPosts, getPostsAndReplies } from '../data/posts';
+import { createPost, getPostsAndReplies } from '../data/posts';
 import DisplayPost from './DisplayPost';
 import Connect from './Connect.js';
 import { AvatarContext } from "../contexts/AvatarContext";
@@ -33,8 +33,6 @@ function Forum() {
 
   const  { avatarImage }  = useContext(AvatarContext);
 
-
-
   const handleDelete = () => {
     setDeletePost(true);
     return;
@@ -50,7 +48,7 @@ function Forum() {
     return
   }
 
-
+// effect runs again if there is delete,edit or post comment action 
   useEffect(() => {
     async function loadPosts() {
       // load all posts exist in database 
@@ -85,15 +83,11 @@ function Forum() {
 
     const postTrimmed = fields.text.trim();
 
-    //console.log(postTrimmed);
-
     //  if textbox field is empty return error
     if (postTrimmed === "") {
       setErrorMessage("Post cannot be empty");
       return;
     }
-
-  
     
     // insert new post in batabase 
     console.log(fields);
@@ -102,18 +96,13 @@ function Forum() {
     const posts = await getPostsAndReplies();
     setPosts(posts);
 
-    // //set post to localStorage
-    // //insertPost(postTrimmed, getUser().email);
     // //make  post field empty
-   
     setFields({...fields, text: "", image_url:""});
     setImage("");
     // //clear error message
     setErrorMessage("");
 
     return;
-
-    
   }
 
    

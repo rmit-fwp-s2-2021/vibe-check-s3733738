@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { getFollowable, getUser, follow } from '../data/repository';
+import { getFollowable, getUser } from '../data/repository';
 import { FollowButton } from './FollowButton';
 import Avatar from './Avatar';
 import '../style/Forum.css';
 
-
 const Connect = ({ users }) => {
-
 
     const [connect, setConnect] = useState(null);
 
@@ -15,9 +13,7 @@ const Connect = ({ users }) => {
             try {
                 // load follwable  from database
                 const currentConnect = await getFollowable(getUser().username);
-                //const following = await getFollowing(getUser().username);
                 setConnect(currentConnect);
-                //setFollowing(following);
                 return;
             } catch (err) {
                 console.log(err);
@@ -53,14 +49,7 @@ const Connect = ({ users }) => {
 
                 }
 
-
-
-
             </ul>
-
-
-
-
 
         </div>
     )

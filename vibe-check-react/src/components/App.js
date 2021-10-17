@@ -20,8 +20,6 @@ function App() {
   const [avatarImage, setAvatarImage] = useState(avatar);
 
   //logout function 
-  //remove current loggedin User
-  //set userLogin to null
   const logoutUser = () => {
     removeUser();
     setUserLogIn(null);
@@ -31,6 +29,7 @@ function App() {
 
     <div className="d-flex flex-column">
       <UserContext.Provider value={{ userLogIn, logoutUser, setUserLogIn }}>
+        {/* pass current user avatar to componets */}
         <AvatarContext.Provider value={{ avatarImage, setAvatarImage }}>
           <Router>
             <Navbar />

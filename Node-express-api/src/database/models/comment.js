@@ -1,6 +1,10 @@
 module.exports = (sequelize, DataTypes) =>
     sequelize.define("comment", {
-
+        comment_id:{
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
         comment_author: {
             type: DataTypes.STRING(32),
             allowNull: false
