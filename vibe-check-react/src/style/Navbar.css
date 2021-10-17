@@ -8,6 +8,7 @@
     position: sticky;
     top: 0;
     z-index: 999;
+    border-bottom: 1px solid rgb(145, 140, 140);
 
   
   }
@@ -80,7 +81,7 @@
   .nav-links:hover {
 
     transition: all 0.2s ease-out;
-    text-decoration:underline;
+    text-decoration:none;
     opacity: 0.7;
   }
 
@@ -142,11 +143,19 @@
 
   #logout{
     color:#E63946;
-    border: 1px solid #E63946;
-    border-radius: 20px;
+    font-weight:bold;
 
+
+  }
+
+  #logout:hover{
+    color:#E63946;
+    text-decoration: none;
+    border: 0px;
+    transition: all 0.3s ease-out;
+    opacity: 0.7;
   }
 
 
   
-  
+ 

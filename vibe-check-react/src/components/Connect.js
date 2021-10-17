@@ -9,8 +9,6 @@ const Connect = ({ users }) => {
 
 
     const [connect, setConnect] = useState(null);
-    //const [ button, setButton] = useState("Follow");
-
 
     useEffect(() => {
         async function loadConnect() {
@@ -20,7 +18,6 @@ const Connect = ({ users }) => {
                 //const following = await getFollowing(getUser().username);
                 setConnect(currentConnect);
                 //setFollowing(following);
-                console.log("component mounted");
                 return;
             } catch (err) {
                 console.log(err);
@@ -31,52 +28,10 @@ const Connect = ({ users }) => {
     }, []);
 
 
-    //console.log(connect);
-
-    // console.log(connect);
-    //console.log(following);
-
-
-    // setUpConnect();
-
-    // async function setUpConnect() {
-    //     const currentConnect = await getFollowable(getUser().username);
-    //     setConnect(currentConnect);
-    // };
-
-    // console.log(connect);
-
-
-
-    // async function handleFollow(followUser){
-    //     const targetUser ={ "targetUser": followUser};
-    //     await follow(getUser().username, targetUser);
-    //     setButton("Following");
-    //     return;
-    // }
-
-
-    // const handleFollowStatus=(username)=>{
-    //    following.map((user)=>{
-
-    //         if (user.following_name === username){
-    //             console.log("debug");
-    //             setFollow("following");
-    //         }
-    //         else{ 
-    //             return follow;
-    //         }
-
-    //    })
-
-    // };
-
-
-
     return (
-        <div className="connect col-lg-3 my-3 p-6 border rounded">
+        <div className="connect">
             <br />
-            <h3 className="border-bottom text-center p-3">Connect</h3>
+            <h2 className="border-bottom text-center p-3">Connect</h2>
             <ul className="list-group">
                 {
                     connect == null ?
@@ -84,8 +39,11 @@ const Connect = ({ users }) => {
                         :
                         connect.map((user) =>
                             <li className="list-group-item d-flex justify-content-between align-items-center border-0">
-                                <Avatar username={user} users={users} />
-                                <h6>{user}</h6>
+                                <div className="follow col-6 d-flex align-items-center">
+                                    <Avatar username={user} users={users} />
+                                    <h6>{user}</h6>
+                                </div>
+
                                 <span>
                                     <FollowButton user={user} />
                                 </span>

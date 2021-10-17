@@ -55,12 +55,20 @@
     opacity: 1.0;
 }
 
+.reply-img{
+    width: 24px;
+    height: 24px;
+    opacity: 0.4;
+}
+
 .post-img{
     max-width: 350px;
     max-height: 350px;
 }
 
-
+h1, h2{
+    font-family: 'Abril Fatface', cursive;
+}
 
 
  

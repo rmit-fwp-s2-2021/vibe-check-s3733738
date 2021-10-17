@@ -13,7 +13,8 @@ function Home() {
         <>
             <div className="row text-center">
                 <div className="col-md-6 p-lg-5 mx-auto my-5  align-items-center justify-content-center">
-                    <h1 className="title">Build a social community and <br></br>share your thoughts!</h1>
+                    <h1 className="title">Welcome to Vibe Check!<br></br> </h1>
+                    <h3>Come and meet new people <br/>across the Australian University!</h3>
                     <span>
                     <Link to="/signup" className="homeBtn btn">
                          Get Started!

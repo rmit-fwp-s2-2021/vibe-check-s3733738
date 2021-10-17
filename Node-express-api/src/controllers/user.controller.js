@@ -73,6 +73,22 @@ exports.update = async(req, res) => {
 
 };
 
+//update image url
+exports.avatarChange = async(req, res) => {
+
+    const image_path = req.body.image_path;
+
+    const user = await db.user.findByPk(req.params.username);
+
+    user.image_path = image_path;
+
+    await user.save();
+
+    res.json(user);
+
+
+};
+
 // delete a post in the database
 exports.delete = async(req, res)=> {
 

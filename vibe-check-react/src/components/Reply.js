@@ -1,20 +1,19 @@
-import { useState, useContext, useEffect } from "react";
-import { useHistory } from "react-router";
-import { UserContext } from "../contexts/UserContext";
+import { useState } from "react";
 import { getUser } from '../data/repository';
-import { createReply, getPosts } from '../data/posts';
+import { createReply } from '../data/posts';
+import replyIcon from '../media/reply.png';
+import '../style/Forum.css';
 
-export default function Reply(props) {
+export default function Reply({ postid, handlePostComment, showForm }) {
 
-    const postid = props.postid;
 
-    console.log({ postid });
-
-    const [showForm, setShowForm] = useState(false);
-
-    const [replyFields, setReplyFields] = useState({ message: "", reply_author: getUser().username, post_id: postid });
+    const [replyFields, setReplyFields] = useState({ message: "", image_path: "", reply_author: getUser().username, post_id: postid });
 
     const [errorMessage, setErrorMessage] = useState("");
+
+    const [image, setImage] = useState("");
+
+    const [loading, setLoading] = useState(false);
 
 
     const handleInputChange = (event) => {
@@ -41,35 +40,54 @@ export default function Reply(props) {
         await createReply({ ...replyFields, message: postTrimmed });
 
         // //make  post field empty
-        setReplyFields({ ...replyFields, message: "" });
+        setReplyFields({ ...replyFields, message: "", image_path:"" });
         // //clear error message
         setErrorMessage("");
+
+        handlePostComment();
 
         return;
 
     }
 
-    const handleClick=()=>{
-        if(showForm == false){
-            setShowForm(true);
+    const handleFileUpload = async (event) => {
+        const files = event.target.files;
+        if (files[0]) {
+            const data = new FormData();
+            data.append("image", files[0]);
+            setLoading(true);
+            // free image hosting api
+            const result = await fetch(
+                "https://api.imgbb.com/1/upload?&key=46f55d39151e14d1eefd8420530fb11b",
+                {
+                    method: "POST",
+                    body: data,
+                }
+            );
+            const file = await result.json();
+            const url = file.data.url;
+            setImage(url);
+            setLoading(false);
+
+            //SETS THE IMAGE URL TO THE FIELDS
+            setReplyFields({
+                ...replyFields,
+                image_path: url,
+            });
+        } else {
+            return;
         }
-        else{
-            setShowForm(false);
-        }
-    }
+    };
+
 
 
     return (
 
         <>
-            <button className="btn btn-default" onClick={handleClick}>
-                <p className="mb-0">
-                    <i className="fas fa-reply"></i>Reply
-                </p>
-            </button>
+
             {showForm == true &&
 
-                <div className="col p-2">
+                <div className="col-auto p-2">
                     <form onSubmit={handleReplySubmit}>
                         <fieldset>
                             <div className="form-group">
@@ -82,11 +100,20 @@ export default function Reply(props) {
                                 </div>
                             }
                             <div className="form-group">
+                                <input type="file" name="file" onChange={handleFileUpload}></input>
                                 <input type="submit" className="btn btn-primary" value="Post" />
                             </div>
+                            {loading ? (
+                                <p>Image uploading...</p>
+                            ) : (
+                                <div className="image-preview text-center my-3">
+                                    <img src={image} className="post-img rounded img-fluid" alt={image}></img>
+                                </div>
+                            )}
                         </fieldset>
                     </form>
                 </div>
+
             }
 
 

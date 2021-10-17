@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) =>
         image_path: {
             type: DataTypes.STRING(600),
             allowNull: true,
-            defaultValue:  'images/avatar.png'
+            defaultValue:  'https://i.ibb.co/cykV2Vg/avatar.png'
         }
     }, {
         // Don't add the timestamp attributes (updatedAt, createdAt)

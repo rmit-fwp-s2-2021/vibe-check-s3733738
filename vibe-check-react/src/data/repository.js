@@ -46,6 +46,15 @@ async function editUser(user) {
   return response.data;
 }
 
+async function changeUserAvatar(username, image_path){
+  
+  const response = await axios.put(API_HOST + `/api/users/avatarChange/${username}`, image_path);
+  
+  return response.data;
+
+
+}
+
 async function deleteUser(username) {
   const response = await axios.delete(API_HOST + `/api/users/delete/${username}`);
 
@@ -98,6 +107,7 @@ export {
   createUser,
   deleteUser,
   editUser,
+  changeUserAvatar,
   getUser,
   setUser,
   removeUser,

@@ -1,8 +1,9 @@
-import React, { useState , useEffect } from 'react'
+import React, { useState , useEffect , useContext} from 'react'
 import { getUser, getUsers } from '../data/repository';
 import { createPost, getPosts, getPostsAndReplies } from '../data/posts';
 import DisplayPost from './DisplayPost';
 import Connect from './Connect.js';
+import { AvatarContext } from "../contexts/AvatarContext";
 
 function Forum() {
 
@@ -17,7 +18,9 @@ function Forum() {
   });
 
   const [errorMessage, setErrorMessage] = useState("");
+
   const [image, setImage] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const [users, setUsers] = useState(null);
@@ -25,6 +28,12 @@ function Forum() {
   const [ deletePost, setDeletePost ] = useState(false);
 
   const [ editPost, setEditPost] = useState(false);
+
+  const [ postComment, setPostComment] = useState(false);
+
+  const  { avatarImage }  = useContext(AvatarContext);
+
+
 
   const handleDelete = () => {
     setDeletePost(true);
@@ -34,6 +43,11 @@ function Forum() {
   const handleEdit = () => {
     setEditPost(true);
     return;
+  }
+
+  const handlePostComment =() =>{
+    setPostComment(true);
+    return
   }
 
 
@@ -50,9 +64,10 @@ function Forum() {
 
       setDeletePost(false);
       setEditPost(false);
+      setPostComment(false);
     }
     loadPosts();
-  }, [username, deletePost, editPost]);
+  }, [username, deletePost, editPost, postComment]);
 
 
 
@@ -137,8 +152,11 @@ function Forum() {
 
   return (
     <>
+    
     <div className="row">
-    <div className="col-lg-8 my-3 p-3 justify-content-center align-items-center ">
+      <div className="col-1">
+      </div>
+    <div className="col-lg-7 my-3 p-3 justify-content-center align-items-center ">
       <div>
         <form onSubmit={handleSubmit}>
           <fieldset>
@@ -147,14 +165,14 @@ function Forum() {
               <textarea name="text" id="text" className="form-control" rows="3"
                 value={fields.text} onChange={handleInputChange} />
             </div>
-            <input type="file" name="file" onChange={handleFileUpload}></input>
+           
             {errorMessage !== null &&
               <div className="form-group">
                 <span className="text-danger">{errorMessage}</span>
               </div>
             }
-            <div className="d-flex justify-content-end">
-               
+            <div className="d-flex justify-content-between align-items-center">
+             <input type="file" name="file" onChange={handleFileUpload}></input>
                 <button type="submit" className="btn btn-primary btn-lg rounded-pill" value="Post">Post</button>
             </div>
       
@@ -170,10 +188,26 @@ function Forum() {
         </form>
       </div>
       <hr />
-      <h1>Forum</h1>
-          <DisplayPost posts={posts} users={users} handleDelete={handleDelete} handleEdit={handleEdit}/>
+      <h1 className="text-weight-bold">Forum</h1>
+          <DisplayPost posts={posts} users={users} handleDelete={handleDelete} handleEdit={handleEdit}  handlePostComment={handlePostComment}/>
     </div>
+            
+          <div className="col-lg-3">
+            <div className="border border-info p-4 text-center">
+            <h2>My Profile</h2>
+            
+                    <img src={avatarImage} alt="Avatar" className="avatar my-3" />
+                    <h3> {getUser().username} </h3>
+                    <div className="user-info">
+                        <p> {getUser().email}</p>
+                        <p>joined since</p>
+                        <p> {getUser().date}</p>
+                    </div>
+            </div>
+
+          
           <Connect users={users}/>
+          </div>
     </div>
     </>
   )

@@ -1,9 +1,8 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const config = require("./config.js");
 
-//variable i want the outside world to have 
+//op : operations, e.g: WHERE, ORDERBY,....
 const db = {
-  //op : operations, e.g: WHERE, ORDERBY,....
   Op: Sequelize.Op
 };
 
@@ -14,8 +13,6 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 });
 
 // Include models.
-// models for the orm
-// can be put in the same file but this file might get bigger 
 db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.post = require("./models/post.js")(db.sequelize, DataTypes);
 db.comment = require("./models/comment.js")(db.sequelize, DataTypes);
@@ -49,20 +46,10 @@ db.like.belongsTo(db.post, {as: "post", foreignKey:'post_id'});
 
 
 
-// Learn more about associations here: https://sequelize.org/master/manual/assocs.html
-
-// Include a sync option with seed data logic included.
-// can call it db.createTheTable...
+// Include a sync option with seed data logic included
 db.sync = async () => {
-  // Sync schema.
-  // create the tables
-  // wait for the promise to finish then move to the next
-  //await db.sequelize.sync();
-
-  // Can sync with force if the schema has become out of date - note that syncing with force is a destructive operation.
-  // drop all tables firsty
   await db.sequelize.sync({ force: true });
-  
+
   await seedData();
 };
 
@@ -78,16 +65,25 @@ async function seedData() {
   const argon2 = require("argon2");
 
   let hash = await argon2.hash("Password1!", { type: argon2.argon2id });
-  await db.user.create({ username: "tester1", password_hash: hash, email: "tester123@test.com", date: new Date().toDateString(), image_path: "images/ben-parker-OhKElOkQ3RE-unsplash.jpeg"});
+  await db.user.create({ username: "jason123", password_hash: hash, email: "tester123@test.com", date: new Date().toDateString(), image_path: "https://i.ibb.co/p278PJM/ben-parker-Oh-KEl-Ok-Q3-RE-unsplash.jpg"});
 
   hash = await argon2.hash("Password2!", { type: argon2.argon2id });
-  await db.user.create({ username: "tester2", password_hash: hash, email: "test321@test.com", date: new Date().toDateString()});
+  await db.user.create({ username: "Wansi06", password_hash: hash, email: "test321@test.com", date: new Date().toDateString()});
 
   hash = await argon2.hash("Password3!", { type: argon2.argon2id });
-  await db.user.create({ username: "tester3", password_hash: hash, email: "test1234@test.com", date: new Date().toDateString(), image_path: "images/luis-villasmil-6qf1uljGpU4-unsplash.jpeg"});
+  await db.user.create({ username: "Lizzy", password_hash: hash, email: "test1234@test.com", date: new Date().toDateString(), image_path: "https://i.ibb.co/7tpGLCG/sarah-brown-t-Td-C88-6a-I-unsplash.jpg"});
 
   hash = await argon2.hash("Password4!", { type: argon2.argon2id });
-  await db.user.create({ username: "tester4", password_hash: hash, email: "test12345@test.com", date: new Date().toDateString()});
+  await db.user.create({ username: "Thomascool", password_hash: hash, email: "test12345@test.com", date: new Date().toDateString(), image_path: "https://i.ibb.co/f20RPzs/zhanarys-dakhiyev-WMl-Rkqt1v-II-unsplash.jpg"});
+
+  hash = await argon2.hash("Password4!", { type: argon2.argon2id });
+  await db.user.create({ username: "Hall", password_hash: hash, email: "test12345@test.com", date: new Date().toDateString()});
+
+  hash = await argon2.hash("Password4!", { type: argon2.argon2id });
+  await db.user.create({ username: "Collins", password_hash: hash, email: "test12345@test.com", date: new Date().toDateString()});
+
+  hash = await argon2.hash("Password4!", { type: argon2.argon2id });
+  await db.user.create({ username: "Charmaineee", password_hash: hash, email: "test12345@test.com", date: new Date().toDateString(), image_path: "https://i.ibb.co/3CfNz78/luis-villasmil-6qf1ulj-Gp-U4-unsplash.jpg"});
 
 
 
@@ -97,29 +93,34 @@ async function seedData() {
   if(post_count > 0)
     return;
 
-  await db.post.create({ username: "tester1" ,text: "does anyone else have any mandatory classes on campus despite the covid stuff going around on campus? how does that make you feel and is there any way around it or do we have to suck it up and risk getting covid and such?"});
-  await db.post.create({ username: "tester2" ,text: "Hello, I was just wondering if there is any opportunities for scholarships for continuing international students, the website only seems to show scholarship opportunities for commencing international students", image_path: "https://i.ibb.co/WVVt6gC/cover1.jpg"});
+  await db.post.create({ username: "jason123" ,text: "does anyone else have any mandatory classes on campus despite the covid stuff going around on campus? how does that make you feel and is there any way around it or do we have to suck it up and risk getting covid and such?"});
+  await db.post.create({ username: "Wansi06" ,text: "I am planning on moving to Melbourne next year, and continuing my degree and am just wondering which uni to choose. Currently thinking of Unimelb, Monash, and RMIT, particularly RMIT as Masters of Medical Physics is only offered at RMIT in VIC and I figure might as well get my physics degree there. "+
+                                                    "So basically i’m kinda just asking for advice on what my preferences should be based on my situation and also… do you think Melbourne will even be open by next year?", 
+  image_path: "https://i.ibb.co/r78sbBj/cover1.jpg"});
 
   const comment_count = await db.comment.count();
 
   if(comment_count > 0)
     return;
   
-  await db.comment.create({ message: "comment on post 1", replyTo_id: 1, comment_author: "tester2"});
-  await db.comment.create({ message: "2nd comment on post 1", replyTo_id: 1, comment_author: "tester2"});
+  await db.comment.create({ message: "You should be able to enrol in a bachelors program using the completed units you already have as the prerequisites. ", replyTo_id: 2, comment_author: "Wansi06"});
+  await db.comment.create({ message: "Been to both Melb Uni and RMIT. Would pick the latter any day of the week. Kind of same area as you (did bachelor of science at melb uni). I'll just say that Melb uni definitely does have the reputation and prestigiousness, "+
+                                      "but I felt way more engaged and motivated at RMIT. There are a number of experiences that made me prefer RMIT", image_path:"https://i.ibb.co/x5H2Yvb/rmit-university.jpg",
+                                      replyTo_id: 2, comment_author: "Charmaineee"});
 
   const relationship_count = await db.relationship.count();
 
   if(relationship_count > 0)
     return;
   
-  await db.relationship.create({ follower_name: "tester1" , following_name: "tester2"});
+  await db.relationship.create({ follower_name: "Wansi06" , following_name: "jason123"});
+  await db.relationship.create({ follower_name: "Wansi06" , following_name: "Charmaineee"});
 
-  await db.like.create({ username: "tester1" , post_id: 1, like: true});
-  await db.like.create({ username: "tester1" , post_id: 2, like: true});
-  await db.like.create({ username: "tester2" , post_id: 2, like: true});
-  await db.like.create({ username: "tester3" , post_id: 2, like: true});
-  await db.like.create({ username: "tester4" , post_id: 2, like: false});
+  await db.like.create({ username: "Wansi06" , post_id: 1, like: true});
+  await db.like.create({ username: "Wansi06" , post_id: 2, like: true});
+  await db.like.create({ username: "jason123" , post_id: 2, like: true});
+  await db.like.create({ username: "Lizzy" , post_id: 2, like: true});
+  await db.like.create({ username: "Thomascool" , post_id: 2, like: false});
 
   
   

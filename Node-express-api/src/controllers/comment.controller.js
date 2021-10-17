@@ -4,7 +4,8 @@ exports.create = async(req, res) => {
     const comment = await db.comment.create({
         comment_author: req.body.reply_author,
         message : req.body.message,
-        replyTo_id: req.body.post_id
+        replyTo_id: req.body.post_id,
+        image_path: req.body.image_path
     });
 
     res.json(comment);
@@ -12,5 +13,3 @@ exports.create = async(req, res) => {
 
 // find a single comment with an id 
 
-
-// delete a single comment with an id

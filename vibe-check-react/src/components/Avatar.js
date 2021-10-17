@@ -17,8 +17,8 @@ const Avatar = ({ username, users }) => {
       
 
     return (
-        <div>
-             <img src={imageUrl} height="50px" width="50px" className="rounded-circle" alt="profileimg" ></img>
+        <div className="mr-3">
+             <img src={imageUrl} height="50px" width="50px" margin="10px" className="rounded-circle" alt="profileimg" ></img>
         </div>
     )
 }

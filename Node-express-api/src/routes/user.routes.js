@@ -17,6 +17,9 @@ module.exports = (express, app) => {
     // edit user details
     router.put("/update", controller.update);
 
+    // update user avatar
+    router.put("/avatarChange/:username", controller.avatarChange);
+
     // delete a user account
     router.delete("/delete/:username", controller.delete);
 

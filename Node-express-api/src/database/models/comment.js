@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) =>
             type: DataTypes.STRING(600),
             allowNull: false
         },
+        image_path:{
+            type: DataTypes.STRING(255),
+            allowNull: true
+        },
         replyTo_id: {
             type: DataTypes.INTEGER,
             allowNull: false

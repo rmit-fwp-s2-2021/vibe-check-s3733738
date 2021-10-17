@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Link } from 'react-router-dom';
 import validation from '../data/validation';
-import { setUser, insertOrUpdateUser, getUsers, createUser, findUser } from '../data/repository';
+import { setUser, createUser, findUser } from '../data/repository';
 import '../style/Form.css';
 import img from "../media/priscilla-du-preez-XkKCui44iM0-unsplash.jpeg";
 import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router-dom";
-import DOMpurify from 'dompurify';
+import sanitize from 'sanitize-html';
 
 
 export default function Signup(props) {
@@ -35,14 +35,20 @@ export default function Signup(props) {
     //dont submmit the form to the server so the page wont refresh
     event.preventDefault();
     // Validate form and if invalid do not contact API.
+
+
+   // const trimmedFields = { username: sanitizedUsername, email: sanitizedEmail, password: sanitizedPassword};
+
     const { trimmedFields, isValid } = await handleValidation();
     if(!isValid)
       return;
+    
+   
 
-   // Create user. -- sends HTTP
+    // Create user. -- sends HTTP
     //request to API
     //assume api always works here
-    const finalFields = { ...trimmedFields}
+    
     const user = await createUser(trimmedFields);
 
     // set user state
@@ -59,6 +65,8 @@ export default function Signup(props) {
   const handleValidation = async () => {
     const trimmedFields = trimFields();
     const currentErrors = { };
+
+   
 
     let key = "username";
     let field = trimmedFields[key];
@@ -77,7 +85,7 @@ export default function Signup(props) {
       currentErrors[key] = "Email length cannot be greater than 40.";
     else if (!/\S+@\S+\.\S+/.test(field)) 
       currentErrors[key]= "Email format must be example123@test.com";
-    else if (await findUser(trimmedFields.email) !== null)
+    else if (await findUser(trimmedFields.username) !== null)
       currentErrors[key] = "This email address is already in use";
 
 
@@ -103,6 +111,7 @@ export default function Signup(props) {
 
     return trimmedFields;
   };
+
 
   return (
     <div>

@@ -4,6 +4,7 @@ import { getUser } from '../data/repository';
 import '../style/Navbar.css';
 import { UserContext } from '../contexts/UserContext';
 import { AvatarContext } from '../contexts/AvatarContext';
+import profileIcon from '../media/profile.png';
 
 function Navbar() {
 
@@ -19,31 +20,32 @@ function Navbar() {
                 <Link to="/" className="navbar-logo" >
                     vibe čheck
                 </Link>
-                <ul className='nav-menu pull-right'>
+                <ul className='nav-menu pull-right align-item-center'>
                     {
                         userLogIn !== null && getUser() !== null ?
                             <>
-                                <li className="nav-item">
+
+                                <li className="nav-item pt-2">
+
+                                    <Link className="nav-links" to={`/profile/${getUser().username}`}>
+                                        <img src={profileIcon} className="profile-img" alt="edit-img" width="35px" height="35x"></img>
+                                    </Link>
+                                </li>
+                                <li className="nav-item pt-2">
                                     <Link className="nav-links" to="/forum">
                                         Forum
                                     </Link>
                                 </li>
 
-                                <li className="nav-item">
 
-                                    <Link to='/profile' className='nav-links'>
-                                        {getUser().username}
-                                    </Link>
-                                    <p>{getUser().email}</p>
-                                    <p> Joined since: {getUser().date}</p>
 
-                                </li>
-                                <li><img src={avatarImage} alt="Avatar" className="avatar" /></li>
                                 <li className="nav-item">
                                     <Link className="nav-button" to="/login" id='logout' onClick={logoutUser} >
                                         Logout
                                     </Link>
                                 </li>
+
+
                             </>
                             :
                             <>

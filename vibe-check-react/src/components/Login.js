@@ -6,6 +6,8 @@ import '../style/Form.css';
 import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router-dom";
 import { AvatarContext } from "../contexts/AvatarContext";
+import sanitize from 'sanitize-html';
+
 
 function Login() {
 
@@ -32,8 +34,10 @@ function Login() {
     // stop page from refreshing
     event.preventDefault();
 
+    const sanitizedUsername = sanitize(fields.username);
+
     // vertfiy user with API endpoint
-    const user = await verifyUser(fields.username, fields.password);
+    const user = await verifyUser(sanitizedUsername, fields.password);
 
     if (user === null) {
       // Login failed, reset password field to blank and set error message.
@@ -52,6 +56,7 @@ function Login() {
     return;
 
   }
+
 
   return (
     <div>
